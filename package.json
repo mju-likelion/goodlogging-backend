@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js"
+  },
   "dependencies": {
     "express": "^4.18.1"
   },
