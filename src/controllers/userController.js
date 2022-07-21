@@ -1,8 +1,12 @@
+import httpStatus from "http-status";
 import {User} from "../../models";
 import jwt from "jsonwebtoken";
 import { passwordHash, passwordCompare } from "../middlewares/password";
+import { APIError } from "../errors/apierror";
+import errorCodes from "../errors/error";
+import asyncWrapper from "../errors/wrappter";
 
-export const register = async (req, res) => {
+const register = async (req, res) => {
     const {name, email, password} = req.body;
     const exist = await User.findOne({
         where: {
@@ -10,7 +14,7 @@ export const register = async (req, res) => {
         }
     });
     if(exist){
-        return res.json({error: "이미 등록된 이메일입니다."});
+        throw new APIError(httpStatus.BAD_REQUEST, errorCodes.EMAIL_ALREADY_EXISTS);
     }
     const user = await User.create({
         name,
@@ -24,7 +28,7 @@ export const register = async (req, res) => {
     });
 }
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
     const {email, password} = req.body;
     const exist = await User.findOne({
         where: {
@@ -32,11 +36,11 @@ export const login = async (req, res) => {
         }
     });
     if(!exist){
-        return res.json({error: "등록되지 않은 이메일입니다."});
+        throw new APIError(httpStatus.BAD_REQUEST, errorCodes.EMAIL_NOT_EXISTS)
     }
     const passwordCorrect = passwordCompare(password, exist.password);
     if(!passwordCorrect){
-        return res.json({error: "비밀번호 오류입니다."});
+        throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PASSWORD_NOT_MATCH)
     }
     const token = jwt.sign(
         {
@@ -53,4 +57,9 @@ export const login = async (req, res) => {
         message: "토큰 발급 완료",
         token
     });
+}
+
+export default {
+    register: asyncWrapper(register),
+    login: asyncWrapper(login)
 }
