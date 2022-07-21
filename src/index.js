@@ -16,6 +16,11 @@ sequelize.sync({ force: false }).then(() => {
     console.log(err);
 });
 
+app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(err.statusCode || 500).send(err);
+});
+
 const handleListen = () => {
     console.log(`Server listening at: http://localhost:${PORT}`);
 }
