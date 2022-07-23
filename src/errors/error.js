@@ -10,6 +10,14 @@ const errorCodes = {
     PASSWORD_NOT_MATCH: {
         message: '비밀번호 오류입니다.',
         code: 'PASSWORD_NOT_MATCH'
+    },
+    AUTH_EXPIRED: {
+        message: '인증이 만료되었습니다.',
+        code: 'TOKEN_EXPIRED'
+    },
+    UNVALID_AUTH: {
+        message: '로그인이 필요합니다.',
+        code: 'UNVALID_TOKEN'
     }
 }
 

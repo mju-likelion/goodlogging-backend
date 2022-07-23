@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 const User = require('./User');
 const Plogging = require('./Plogging');
+const Challenge = require('./Challenge');
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
@@ -15,9 +16,13 @@ const sequelize = new Sequelize( //config의 db정보와 연결
 db.sequelize = sequelize;
 db.Plogging = Plogging
 db.User = User;
+db.Challenge = Challenge;
+Challenge.init(sequelize);
 User.init(sequelize);
 Plogging.init(sequelize);
 User.associate(db);
 Plogging.associate(db);
+Challenge.associate(db);
+
 
 module.exports = db;

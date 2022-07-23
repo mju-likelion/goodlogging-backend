@@ -9,7 +9,7 @@ module.exports = class User extends Sequelize.Model{
                 unique: true
             },
             email: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(40),
                 allowNull: false,
                 unique: true
             },
@@ -21,8 +21,8 @@ module.exports = class User extends Sequelize.Model{
                 type: Sequelize.ENUM("beginner", "intermediate", "expert"),
                 defaultValue: "beginner"
             },
-            address:{
-                type:Sequelize.STRING(100),
+            address: {
+                type: Sequelize.STRING(100),
                 allowNull: false
             }
 
@@ -39,5 +39,6 @@ module.exports = class User extends Sequelize.Model{
     }
     static associate(db){
         db.User.hasMany(db.Plogging, { foreignKey : "owner", sourceKey:"username"});
+        db.User.hasMany(db.Challenge, {foreignKey: 'owner', sourceKey: 'username'});
     }
 };
