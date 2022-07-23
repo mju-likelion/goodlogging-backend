@@ -7,7 +7,7 @@ import errorCodes from "../errors/error";
 import asyncWrapper from "../errors/wrappter";
 
 const register = async (req, res) => {
-    const {name, email, password} = req.body;
+    const {username, email, password, level, address} = req.body;
     const exist = await User.findOne({
         where: {
             email
@@ -17,14 +17,18 @@ const register = async (req, res) => {
         throw new APIError(httpStatus.BAD_REQUEST, errorCodes.EMAIL_ALREADY_EXISTS);
     }
     const user = await User.create({
-        name,
+        username,
         email,
-        password: await passwordHash(password)
+        password: await passwordHash(password),
+        level,
+        address
     });
     return res.json({
         id: user.id,
-        name: user.name,
-        email: user.email
+        username: user.username,
+        email: user.email,
+        level: user.level,
+        address: user.address
     });
 }
 

@@ -5,7 +5,7 @@ import user from "../controllers/userController";
 
 const router = Router();
 
-router.post("/register", body('name').exists(), body('email').exists(), body('password').exists(), validate, user.register);
+router.post("/register", body('username').exists(), body('email').exists(), body('password').exists(), body('level').exists(), body('address').exists(), validate, user.register);
 router.post("/login", body('email').exists(), body('password').exists(), validate, user.login);
 
 export default router;
