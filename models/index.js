@@ -14,15 +14,14 @@ const sequelize = new Sequelize( //config의 db정보와 연결
 );
 
 db.sequelize = sequelize;
-db.Plogging = Plogging
 db.User = User;
 db.Challenge = Challenge;
+db.Plogging = Plogging;
 Challenge.init(sequelize);
 User.init(sequelize);
 Plogging.init(sequelize);
 User.associate(db);
 Plogging.associate(db);
 Challenge.associate(db);
-
 
 module.exports = db;

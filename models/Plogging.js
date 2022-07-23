@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class User extends Sequelize.Model{
+module.exports = class Plogging extends Sequelize.Model{
     static init(sequelize){
         {
            
@@ -26,8 +26,8 @@ module.exports = class User extends Sequelize.Model{
 		}, {
             sequelize,
             timestamps: true,
-            modelName: 'User',
-            tableName: 'users',
+            modelName: 'Plogging',
+            tableName: 'ploggings',
             paranoid: false,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
@@ -35,7 +35,6 @@ module.exports = class User extends Sequelize.Model{
     }
 }
     static associate(db){
-        db.User.hasMany(db.User, {foreignKey:'owner' , targetKey:'username'})
-        
+        db.Plogging.belongsTo(db.User, {foreignKey:'owner' , targetKey:'username'})   
     }
 };
