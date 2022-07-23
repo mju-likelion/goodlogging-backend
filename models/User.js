@@ -4,27 +4,29 @@ module.exports = class User extends Sequelize.Model{
     static init(sequelize){
         return super.init({
             username: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING(20),
                 allowNull: false,
                 unique: true
             },
             email: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING(50),
                 allowNull: false,
                 unique: true
             },
             password: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING(60),
                 allowNull: false
             },
-            level: {
+            level:{
                 type: Sequelize.ENUM("beginner", "intermediate", "expert"),
                 defaultValue: "beginner"
             },
-            address: {
-                type: Sequelize.TEXT,
+            address:{
+                type:Sequelize.STRING(100),
                 allowNull: false
             }
+
+
 		}, {
             sequelize,
             timestamps: false,
@@ -36,5 +38,6 @@ module.exports = class User extends Sequelize.Model{
         });
     }
     static associate(db){
+        db.User.hasMany(db.Plogging, { foreignKey : "owner", sourceKey:"username"});
     }
 };
