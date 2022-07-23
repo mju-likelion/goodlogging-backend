@@ -14,15 +14,7 @@ module.exports = class User extends Sequelize.Model{
                 unique: true
             },
             password: {
-                type: Sequelize.TEXT,
-                allowNull: false
-            },
-            level: {
-                type: Sequelize.ENUM("beginner", "intermediate", "expert"),
-                defaultValue: "beginner"
-            },
-            address: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING(60),
                 allowNull: false
             },
             level: {
@@ -44,5 +36,6 @@ module.exports = class User extends Sequelize.Model{
         });
     }
     static associate(db){
+        db.User.hasMany(db.Challenge, {foreignKey: 'owner', sourceKey: 'username'});
     }
 };
