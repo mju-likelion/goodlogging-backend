@@ -22,7 +22,7 @@ module.exports = class Challenge extends Sequelize.Model{
             }
 		}, {
             sequelize,
-            timestamps: false,
+            timestamps: true,
             modelName: 'Challenge',
             tableName: 'challenges',
             paranoid: false,
