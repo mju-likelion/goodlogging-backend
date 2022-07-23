@@ -4,12 +4,12 @@ module.exports = class User extends Sequelize.Model{
     static init(sequelize){
         return super.init({
             username: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING(20),
                 allowNull: false,
                 unique: true
             },
             email: {
-                type: Sequelize.TEXT,
+                type: Sequelize.STRING(40),
                 allowNull: false,
                 unique: true
             },
@@ -23,6 +23,14 @@ module.exports = class User extends Sequelize.Model{
             },
             address: {
                 type: Sequelize.TEXT,
+                allowNull: false
+            },
+            level: {
+                type: Sequelize.ENUM("beginner", "intermediate", "expert"),
+                defaultValue: "beginner"
+            },
+            address: {
+                type: Sequelize.STRING(100),
                 allowNull: false
             }
 		}, {
