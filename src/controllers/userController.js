@@ -1,10 +1,11 @@
 import httpStatus from "http-status";
-import {User} from "../../models";
+import {User, Challenge} from "../../models";
 import jwt from "jsonwebtoken";
 import { passwordHash, passwordCompare } from "../middlewares/password";
 import { APIError } from "../errors/apierror";
 import errorCodes from "../errors/error";
 import asyncWrapper from "../errors/wrappter";
+import calculateLevel from "../middlewares/calculateLevel";
 
 const register = async (req, res) => {
     const {username, email, password, level, address} = req.body;
@@ -22,6 +23,10 @@ const register = async (req, res) => {
         password: await passwordHash(password),
         level,
         address
+    });
+    const challenge = await Challenge.create({
+        goal: calculateLevel(level),
+        owner: username
     });
     return res.json({
         id: user.id,
