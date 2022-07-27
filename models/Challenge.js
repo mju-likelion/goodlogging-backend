@@ -11,10 +11,6 @@ module.exports = class Challenge extends Sequelize.Model{
                 type: Sequelize.DOUBLE,
                 require: true
             },
-            month: {
-                type: 'TIMESTAMP',
-                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-            },
             owner: {
                 type: Sequelize.STRING(20),
                 allowNull: false,
