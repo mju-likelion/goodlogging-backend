@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../../models";
 import { APIError } from "../errors/apierror";
 import errorCodes from "../errors/error";
-import asyncWrapper from "../errors/wrappter";
+import asyncWrapper from "../errors/wrapper";
 
 const authMiddleware = async (req, res, next) => {
     try{
