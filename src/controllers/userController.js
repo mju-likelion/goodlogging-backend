@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { passwordHash, passwordCompare } from "../middlewares/password";
 import { APIError } from "../errors/apierror";
 import errorCodes from "../errors/error";
-import asyncWrapper from "../errors/wrappter";
+import asyncWrapper from "../errors/wrapper";
 import calculateLevel from "../middlewares/calculateLevel";
 
 const register = async (req, res) => {

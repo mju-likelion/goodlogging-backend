@@ -1,5 +1,5 @@
 import { Challenge } from "../../models";
-import asyncWrapper from "../errors/wrappter"
+import asyncWrapper from "../errors/wrapper"
 
 const getChallenge = async (req, res) => {
     const {user} = req;
