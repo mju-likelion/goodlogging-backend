@@ -5,6 +5,7 @@ import user from "../controllers/userController";
 
 const router = Router();
 
+router.get("/:username", validate, user.userProfile);
 router.put("/:username", body('level').exists(), body('address').exists(), validate, user.userEdit);
 
 export default router;
