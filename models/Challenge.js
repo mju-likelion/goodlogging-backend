@@ -4,11 +4,11 @@ module.exports = class Challenge extends Sequelize.Model{
     static init(sequelize){
         return super.init({
             done: {
-                type: Sequelize.NUMBER,
+                type: Sequelize.INTEGER,
                 defaultValue: 0
             },
             goal: {
-                type: Sequelize.NUMBER,
+                type: Sequelize.INTEGER,
                 defaultValue: 600
             },
             owner: {
