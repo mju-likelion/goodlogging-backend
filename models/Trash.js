@@ -29,8 +29,8 @@ module.exports = class Trash extends Sequelize.Model{
 		}, {
             sequelize,
             timestamps: true,
-            modelName: 'User',
-            tableName: 'users',
+            modelName: 'Trash',
+            tableName: 'trashes',
             paranoid: false,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
