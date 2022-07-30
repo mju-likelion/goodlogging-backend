@@ -1,4 +1,4 @@
-import httpStatus from "http-status";
+import httpStatus, { NO_CONTENT } from "http-status";
 import {User, Challenge} from "../../models";
 import jwt from "jsonwebtoken";
 import { passwordHash, passwordCompare } from "../middlewares/password";
@@ -68,7 +68,36 @@ const login = async (req, res) => {
     });
 }
 
+const userEdit = async (req, res) => {
+    const {
+        body: {
+            level, address
+        }, 
+        user
+    } = req;
+    const targetUser = await User.findOne({
+        username: user.username
+    });
+    await targetUser.update({
+        level,
+        address
+    });
+    const challenges = await Challenge.findAll({
+        where: {
+            owner: user.username
+        }
+    });
+    for await (const challenge of challenges){
+        await challenge.update({
+            goal: calculateLevel(level),
+            address
+        });
+    }
+    return res.sendStatus(NO_CONTENT);
+}
+
 export default {
     register: asyncWrapper(register),
-    login: asyncWrapper(login)
+    login: asyncWrapper(login),
+    userEdit: asyncWrapper(userEdit)
 }
