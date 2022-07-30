@@ -12,12 +12,12 @@ module.exports = class Trash extends Sequelize.Model{
             latitude: {
                 type: Sequelize.STRING(20),
                 allowNull: false,
-                unique: true
+                unique: false
             },
             longitude:{
                 type: Sequelize.STRING(20),
                 allowNull: false,
-                unique: true
+                unique: false
             },
             plogging:{
                 type: Sequelize.STRING(40),
