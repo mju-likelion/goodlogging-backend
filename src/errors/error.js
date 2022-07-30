@@ -1,7 +1,7 @@
 const errorCodes = {
-    EMAIL_ALREADY_EXISTS: {
-        message: '이미 사용중인 이메일입니다.',
-        code: 'EMAIL_ALREADY_EXISTS'
+    USER_ALREADY_EXISTS: {
+        message: '이미 사용중인 이메일/이름입니다.',
+        code: 'USER_ALREADY_EXISTS'
     },
     EMAIL_NOT_EXISTS: {
         message: '등록되지 않은 이메일입니다.',

@@ -9,13 +9,18 @@ import calculateLevel from "../middlewares/calculateLevel";
 
 const register = async (req, res) => {
     const {username, email, password, level, address} = req.body;
-    const exist = await User.findOne({
+    const existEmail = await User.findOne({
         where: {
             email
         }
     });
-    if(exist){
-        throw new APIError(httpStatus.BAD_REQUEST, errorCodes.EMAIL_ALREADY_EXISTS);
+    const existUsername = await User.findOne({
+        where: {
+            username
+        }
+    });
+    if(existEmail || existUsername){
+        throw new APIError(httpStatus.BAD_REQUEST, errorCodes.USER_ALREADY_EXISTS);
     }
     const user = await User.create({
         username,
