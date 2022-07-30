@@ -73,6 +73,23 @@ const login = async (req, res) => {
     });
 }
 
+const userProfile = async (req, res) => {
+    const { user } = req;
+    const targetUser = await User.findOne({
+        where: {
+            username: user.username
+        }
+    });
+    return res.json({
+        profile: {
+            username: targetUser.username,
+            email: targetUser.email,
+            address: targetUser.address
+        }
+    });
+    // 유저가 올린 게시물들 표현은 추후 작업...
+}
+
 const userEdit = async (req, res) => {
     const {
         body: {
@@ -104,5 +121,6 @@ const userEdit = async (req, res) => {
 export default {
     register: asyncWrapper(register),
     login: asyncWrapper(login),
+    userProfile: asyncWrapper(userProfile),
     userEdit: asyncWrapper(userEdit)
 }
