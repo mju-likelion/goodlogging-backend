@@ -22,6 +22,10 @@ const errorCodes = {
     USER_NOT_FOUND: {
         message: '유저가 존재하지 않습니다.',
         code: 'USER_NOT_FOUND'
+    },
+    UNAUTHORIZED: {
+        message: '권한이 없습니다.',
+        code: 'UNAUTHORIZED'
     }
 }
 

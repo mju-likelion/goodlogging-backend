@@ -1,15 +1,14 @@
-import { NO_CONTENT } from "http-status";
-import {User, Challenge} from "../../models";
+import httpStatus, { NO_CONTENT } from "http-status";
+import { Challenge } from "../../models";
+import { APIError } from "../errors/apierror";
+import errorCodes from "../errors/error";
 import asyncWrapper from "../errors/wrapper";
 import calculateLevel from "../middlewares/calculateLevel";
+import isTargetUserExist from "../middlewares/getTargetUser";
 
 const userProfile = async (req, res) => {
-    const { user } = req;
-    const targetUser = await User.findOne({
-        where: {
-            username: user.username
-        }
-    });
+    const { username } = req.body;
+    const targetUser = isTargetUserExist(username);
     return res.json({
         profile: {
             username: targetUser.username,
@@ -25,26 +24,36 @@ const userEdit = async (req, res) => {
         body: {
             level, address
         }, 
+        param: {
+            username
+        },
         user
     } = req;
-    const targetUser = await User.findOne({
-        username: user.username
-    });
+    
+    const targetUser = isTargetUserExist(username);
+    
+    if(user.username !== targetUser.username){
+        throw new APIError(httpStatus.UNAUTHORIZED, errorCodes.UNAUTHORIZED);
+    }
+
     await targetUser.update({
         level,
         address
     });
+
     const challenges = await Challenge.findAll({
         where: {
-            owner: user.username
+            owner: username
         }
     });
+
     for await (const challenge of challenges){
         await challenge.update({
             goal: calculateLevel(level),
             address
         });
     }
+
     return res.sendStatus(NO_CONTENT);
 }
 
