@@ -18,6 +18,10 @@ const errorCodes = {
     UNVALID_AUTH: {
         message: '로그인이 필요합니다.',
         code: 'UNVALID_TOKEN'
+    },
+    USER_NOT_FOUND: {
+        message: '유저가 존재하지 않습니다.',
+        code: 'USER_NOT_FOUND'
     }
 }
 
