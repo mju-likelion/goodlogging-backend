@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { User, Challenge } from '../../models';
 import jwt from 'jsonwebtoken';
 import { passwordHash, passwordCompare } from '../middlewares/password';
+import calculateLevel from '../middlewares/calculateLevel';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
