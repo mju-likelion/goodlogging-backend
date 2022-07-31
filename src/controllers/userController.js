@@ -14,6 +14,7 @@ const userProfile = async (req, res) => {
       username: targetUser.username,
       email: targetUser.email,
       address: targetUser.address,
+      level: targetUser.level,
     },
   });
   // 유저가 올린 게시물들 표현은 추후 작업...
