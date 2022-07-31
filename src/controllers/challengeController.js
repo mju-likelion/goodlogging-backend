@@ -1,14 +1,28 @@
 import { Challenge } from '../../models';
 import asyncWrapper from '../errors/wrapper';
+import APIError from '../errors/apierror';
+import httpStatus from 'http-status';
+import errorCodes from '../errors/error';
 
 const getChallenge = async (req, res) => {
-  const { user } = req;
+  const {
+    query: { year, month },
+    user,
+  } = req;
+
   const challenge = await Challenge.findOne({
     where: {
       owner: user.username,
     },
   });
-  return res.json(challenge);
+
+  const createdAt = JSON.stringify(challenge.createdAt);
+
+  if (!createdAt.includes(`${year}-${month}`)) {
+    throw new APIError(httpStatus.BAD_REQUEST, errorCodes.CHALLENGE_NOT_EXISTS);
+  } else {
+    return res.json(challenge);
+  }
 };
 
 const editChallenge = (req, res) => {};
