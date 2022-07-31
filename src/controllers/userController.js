@@ -1,5 +1,5 @@
 import httpStatus, { NO_CONTENT } from 'http-status';
-import { Challenge } from '../../models';
+import { Challenge, User } from '../../models';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
@@ -22,20 +22,27 @@ const userProfile = async (req, res) => {
 const userEdit = async (req, res) => {
   const {
     body: { level, address },
-    param: { username },
+    params: { username },
     user,
   } = req;
 
-  const targetUser = isTargetUserExist(username);
+  const targetUser = await isTargetUserExist(username);
 
   if (user.username !== targetUser.username) {
     throw new APIError(httpStatus.UNAUTHORIZED, errorCodes.UNAUTHORIZED);
   }
 
-  await targetUser.update({
-    level,
-    address,
-  });
+  await User.update(
+    {
+      level,
+      address,
+    },
+    {
+      where: {
+        username: targetUser.username,
+      },
+    }
+  );
 
   const challenges = await Challenge.findAll({
     where: {
