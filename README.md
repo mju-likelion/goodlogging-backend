@@ -93,7 +93,6 @@ JWT_SECRET = "......"
 │   │   ├── 📜 challengeRouter.js
 │   │   ├── 📜 index.js
 │   │   └── 📜 userRouter.js
-│   │   └── 📜 userRouter.js
 │   └── 📜 index.js
 ├── 📜 .babelrc
 ├── 📜 .env
