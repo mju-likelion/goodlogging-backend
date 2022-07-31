@@ -7,8 +7,8 @@ import calculateLevel from '../middlewares/calculateLevel';
 import isTargetUserExist from '../middlewares/getTargetUser';
 
 const userProfile = async (req, res) => {
-  const { username } = req.body;
-  const targetUser = isTargetUserExist(username);
+  const { username } = req.params;
+  const targetUser = await isTargetUserExist(username);
   return res.json({
     profile: {
       username: targetUser.username,
