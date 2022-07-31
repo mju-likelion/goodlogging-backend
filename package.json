@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js"
+    "start": "nodemon --exec babel-node ./src/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

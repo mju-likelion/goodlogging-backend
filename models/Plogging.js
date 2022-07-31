@@ -11,13 +11,18 @@ module.exports = class Plogging extends Sequelize.Model {
             unique: true,
           },
           date: {
+
             type: 'TIMESTAMP',
             defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+
+
           },
           duration: {
             type: Sequelize.INTEGER,
             allowNull: false,
           },
+
+
         },
         {
           sequelize,
@@ -27,15 +32,19 @@ module.exports = class Plogging extends Sequelize.Model {
           paranoid: false,
           charset: 'utf8mb4',
           collate: 'utf8mb4_general_ci',
+
+
         }
       );
     }
   }
   static associate(db) {
+
     db.Plogging.hasMany(db.Trash);
     db.Plogging.belongsTo(db.User, {
       foreignKey: 'owner',
       targetKey: 'username',
+
     });
   }
 };
