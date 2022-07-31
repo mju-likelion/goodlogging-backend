@@ -19,23 +19,17 @@ module.exports = class Trash extends Sequelize.Model {
           type: Sequelize.STRING(20),
           allowNull: false,
           unique: false,
-
-       
         },
         longitude: {
           type: Sequelize.STRING(20),
           allowNull: false,
 
           unique: false,
-
-
         },
         plogging: {
           type: Sequelize.STRING(40),
           allowNull: false,
           unique: true,
-
-
         },
       },
       {
@@ -50,11 +44,9 @@ module.exports = class Trash extends Sequelize.Model {
     );
   }
   static associate(db) {
-
     db.Plogging.belongsTo(db.Plogging, {
       foreignKey: 'plogging',
       targetKey: 'date',
     });
-
   }
 };
