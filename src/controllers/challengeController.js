@@ -1,23 +1,19 @@
-import { Challenge } from "../../models";
-import asyncWrapper from "../errors/wrapper"
+import { Challenge } from '../../models';
+import asyncWrapper from '../errors/wrapper';
 
 const getChallenge = async (req, res) => {
-    const {user} = req;
-    const challenge = await Challenge.findOne(
-        {
-            where: {
-                owner: user.username
-            }
-        }
-    )
-    return res.json(challenge);
-}
+  const { user } = req;
+  const challenge = await Challenge.findOne({
+    where: {
+      owner: user.username,
+    },
+  });
+  return res.json(challenge);
+};
 
-const editChallenge = (req, res) => {
+const editChallenge = (req, res) => {};
 
-}
-
-export default{
-    getChallenge: asyncWrapper(getChallenge),
-    editChallenge: asyncWrapper(editChallenge)
-}
+export default {
+  getChallenge: asyncWrapper(getChallenge),
+  editChallenge: asyncWrapper(editChallenge),
+};
