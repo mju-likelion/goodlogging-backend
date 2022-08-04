@@ -62,7 +62,7 @@ const login = async (req, res) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: '5m',
+      expiresIn: '15m',
       issuer: 'nodebird',
     }
   );
