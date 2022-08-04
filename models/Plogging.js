@@ -10,10 +10,6 @@ module.exports = class Plogging extends Sequelize.Model {
             allowNull: false,
             unique: false,
           },
-          date: {
-            type: 'TIMESTAMP',
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-          },
           duration: {
             type: Sequelize.INTEGER,
             allowNull: false,
