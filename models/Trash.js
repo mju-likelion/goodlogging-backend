@@ -27,7 +27,7 @@ module.exports = class Trash extends Sequelize.Model {
           unique: false,
         },
         plogging: {
-          type: Sequelize.STRING(40),
+          type: Sequelize.INTEGER,
           allowNull: false,
           unique: true,
         },

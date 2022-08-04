@@ -10,5 +10,5 @@ const validate = (req, res, next) => {
 
   next();
 };
-
+//유효성검증
 export default validate;

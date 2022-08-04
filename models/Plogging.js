@@ -8,7 +8,7 @@ module.exports = class Plogging extends Sequelize.Model {
           owner: {
             type: Sequelize.STRING(20),
             allowNull: false,
-            unique: true,
+            unique: false,
           },
           date: {
             type: 'TIMESTAMP',
