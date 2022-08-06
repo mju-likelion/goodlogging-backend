@@ -13,7 +13,7 @@ module.exports = class Challenge extends Sequelize.Model {
           defaultValue: 600,
         },
         owner: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.INTEGER,
           allowNull: false,
           unique: true,
         },
@@ -32,7 +32,11 @@ module.exports = class Challenge extends Sequelize.Model {
   static associate(db) {
     db.Challenge.belongsTo(db.User, {
       foreignKey: 'owner',
-      targetKey: 'username',
+      targetKey: 'id',
+    });
+    db.Challenge.hasOne(db.File, {
+      foreignKey: 'target',
+      sourceKey: 'id',
     });
   }
 };

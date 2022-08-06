@@ -19,7 +19,7 @@ const getFileId = async (req, fileData) => {
       throw new APIError(httpStatus.BAD_REQUEST, errorCodes.FILE_NOT_PROVIDED);
     }
     const file = await File.create({
-      owner: user.username,
+      target: user.id,
       fileName: fileData.originalname,
     });
     const params = {

@@ -17,18 +17,21 @@ const sequelize = new Sequelize( //config의 db정보와 연결
 );
 
 db.sequelize = sequelize;
+
 db.Trash = Trash;
 db.User = User;
 db.Challenge = Challenge;
 db.Plogging = Plogging;
 db.Badge = Badge;
 db.File = File;
+
 Challenge.init(sequelize);
 User.init(sequelize);
 Plogging.init(sequelize);
 Trash.init(sequelize);
 Badge.init(sequelize);
 File.init(sequelize);
+
 User.associate(db);
 Plogging.associate(db);
 Challenge.associate(db);

@@ -31,7 +31,7 @@ const register = async (req, res) => {
   });
   const challenge = await Challenge.create({
     goal: calculateLevel(level),
-    owner: username,
+    owner: user.id,
   });
   return res.json({
     id: user.id,

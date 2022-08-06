@@ -6,9 +6,9 @@ module.exports = class Plogging extends Sequelize.Model {
       return super.init(
         {
           owner: {
-            type: Sequelize.STRING(20),
+            type: Sequelize.INTEGER,
             allowNull: false,
-            unique: false,
+            unique: true,
           },
           duration: {
             type: Sequelize.INTEGER,
@@ -28,10 +28,13 @@ module.exports = class Plogging extends Sequelize.Model {
     }
   }
   static associate(db) {
-    db.Plogging.hasMany(db.Trash);
     db.Plogging.belongsTo(db.User, {
       foreignKey: 'owner',
-      targetKey: 'username',
+      targetKey: 'id',
+    });
+    db.Plogging.hasMany(db.Trash, {
+      foreignKey: 'plogging',
+      sourceKey: 'id',
     });
   }
 };

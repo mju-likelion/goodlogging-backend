@@ -12,7 +12,7 @@ const getChallenge = async (req, res) => {
 
   const challenge = await Challenge.findOne({
     where: {
-      owner: user.username,
+      owner: user.id,
     },
   });
 
