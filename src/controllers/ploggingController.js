@@ -11,13 +11,12 @@ const newPlogging = async (req, res) => {
 
   const plogging = Plogging.create({
     owner: user.username,
-    date: req.app.locals.time,
     duration: 0,
   });
+
   return res.json({
     owner: user.username,
-    date: req.app.locals.time,
-    duratiion: 0,
+    duratiion: user.duration,
   });
 };
 
