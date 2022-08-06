@@ -10,13 +10,14 @@ import { nextDay } from 'date-fns';
 const newPlogging = async (req, res) => {
   const { user } = req;
   const plogging = Plogging.create({
-    owner: user.username,
+    owner: user.id,
     duration: 0,
   });
 
   return res.json({
-    owner: user.username,
-    duratiion: 0,
+    owner: user.id,
+    duratiion: user.duration,
+ 
   });
 };
 

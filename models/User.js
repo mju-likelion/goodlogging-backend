@@ -41,11 +41,19 @@ module.exports = class User extends Sequelize.Model {
   static associate(db) {
     db.User.hasMany(db.Plogging, {
       foreignKey: 'owner',
-      sourceKey: 'username',
+      sourceKey: 'id',
     });
     db.User.hasMany(db.Challenge, {
       foreignKey: 'owner',
-      sourceKey: 'username',
+      sourceKey: 'id',
+    });
+    db.User.hasOne(db.File, {
+      foreignKey: 'target',
+      sourceKey: 'id',
+    });
+    db.User.belongsToMany(db.Badge, {
+      foreignKey: 'owner',
+      through: 'badgeStorage',
     });
   }
 };

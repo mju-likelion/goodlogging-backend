@@ -47,7 +47,7 @@ const userEdit = async (req, res) => {
 
   const challenges = await Challenge.findAll({
     where: {
-      owner: username,
+      owner: user.id,
     },
   });
 

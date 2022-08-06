@@ -12,6 +12,9 @@ module.exports = class Badge extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
+        owner: {
+          type: Sequelize.STRING(20),
+        },
       },
       {
         sequelize,
@@ -24,5 +27,14 @@ module.exports = class Badge extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {}
+  static associate(db) {
+    db.Badge.hasOne(db.File, {
+      foreignKey: 'target',
+      sourceKey: 'id',
+    });
+    db.Badge.belongsToMany(db.User, {
+      foreignKey: 'badge',
+      through: 'badgeStorage',
+    });
+  }
 };

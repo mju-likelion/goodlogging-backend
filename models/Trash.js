@@ -4,17 +4,10 @@ module.exports = class Trash extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        //사용자, 사용자 위치, 해당되는 플로깅 모델, 날짜
-        owner: {
-          type: Sequelize.STRING(20),
-          allowNull: false,
-          unique: true,
-        },
         district: {
           //시 군 구 의 구 입니다.
           type: Sequelize.STRING(8),
         },
-
         latitude: {
           type: Sequelize.STRING(20),
           allowNull: false,
@@ -23,7 +16,6 @@ module.exports = class Trash extends Sequelize.Model {
         longitude: {
           type: Sequelize.STRING(20),
           allowNull: false,
-
           unique: false,
         },
         plogging: {
@@ -44,9 +36,9 @@ module.exports = class Trash extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Plogging.belongsTo(db.Plogging, {
+    db.Trash.belongsTo(db.Plogging, {
       foreignKey: 'plogging',
-      targetKey: 'createdAt',
+      targetKey: 'id',
     });
   }
 };
