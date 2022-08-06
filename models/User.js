@@ -47,5 +47,9 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: 'owner',
       sourceKey: 'username',
     });
+    db.User.hasMany(db.Trash, {
+      foreignKey: 'owner',
+      sourceKey: 'username',
+    });
   }
 };
