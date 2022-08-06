@@ -9,7 +9,11 @@ const router = Router();
 router.get('/', validate, (req, res) => {
   console.log('asdasdasd');
 });
-router.post('/start', time.getTime, ploggingController.newPlogging);
-router.post('/end', time.getDurationTime, ploggingController.endPlogging);
+router.post('/start', ploggingController.newPlogging);
+router.post(
+  '/end/:id',
+  ploggingController.forUpdate,
+  ploggingController.endPlogging
+);
 
 export default router;

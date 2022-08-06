@@ -5,38 +5,57 @@ import { Plogging, User } from '../../models';
 import asyncWrapper from '../errors/wrapper';
 import add from 'date-fns/add';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import { nextDay } from 'date-fns';
 
 const newPlogging = async (req, res) => {
   const { user } = req;
-
   const plogging = Plogging.create({
     owner: user.username,
-    date: req.app.locals.time,
     duration: 0,
   });
+
   return res.json({
     owner: user.username,
-    date: req.app.locals.time,
     duratiion: 0,
   });
 };
 
+const forUpdate = async (req, res, next) => {
+  const update = await Plogging.update(
+    { duration: 0 },
+    { where: { id: req.params } }
+  );
+  next();
+};
 const endPlogging = async (req, res) => {
-  const startTime = req.time; //DB에서 시작 시간을 찾을때 사용
-  const durationTime = req.durationTime; //time 미들웨어에서 계산한 지속타임
+  console.log(req.params);
+  console.log(parseInt(req.params, 10));
 
-  const end = async () => {
-    await Plogging.update(
-      { duration: durationTime },
-      { where: { date: startTime } }
-    );
-  };
+  const startTime = await Plogging.findAll({
+    where: {
+      id: parseInt(req.params),
+    },
+  });
+
+  /* const durationTime = differenceInSeconds(
+    startTime.updatedAt,
+    startTime.createdAt
+  );*/
+  console.log(startTime);
+  //console.log(startTime.createdAt, startTime.updatedAt);
+  // console.log(durationTime);
+
+  const end = Plogging.update(
+    { duration: durationTime },
+    { where: { id: req.params } }
+  );
   return res.json({
-    duration: end.duration,
+    duration: startTime.duration,
   });
 };
 
 export default {
   newPlogging: asyncWrapper(newPlogging),
   endPlogging: asyncWrapper(endPlogging),
+  forUpdate: asyncWrapper(forUpdate),
 };

@@ -46,7 +46,7 @@ module.exports = class Trash extends Sequelize.Model {
   static associate(db) {
     db.Plogging.belongsTo(db.Plogging, {
       foreignKey: 'plogging',
-      targetKey: 'date',
+      targetKey: 'createdAt',
     });
   }
 };
