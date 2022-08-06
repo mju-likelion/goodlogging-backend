@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
 dotenv.config();
-import express from 'express';
 import { sequelize } from '../models';
 import globalRouter from './routers/index';
 
