@@ -13,7 +13,12 @@ module.exports = class Badge extends Sequelize.Model {
           allowNull: false,
         },
         owner: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        condition: {
+          type: Sequelize.STRING(150),
+          allowNull: false,
         },
       },
       {
