@@ -106,9 +106,9 @@ JWT_SECRET = "......"
 * * *
 
 ## API 문서
-* [API 문서](https://www.notion.so/API-fef523bc86db48fd9515d1feeddf5517)
+* [API 문서](https://burnt-dahlia-f9e.notion.site/API-fef523bc86db48fd9515d1feeddf5517)
 
 * * *
 
 ## DB 스키마
-* [DB 스키마](https://www.notion.so/DB-308d3a8941ff4320b33e7bc6deb496d3)
+* [DB 스키마](https://burnt-dahlia-f9e.notion.site/DB-308d3a8941ff4320b33e7bc6deb496d3)
