@@ -15,7 +15,6 @@ module.exports = class Challenge extends Sequelize.Model {
         owner: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          unique: true,
         },
       },
       {
