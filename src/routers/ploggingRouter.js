@@ -6,9 +6,7 @@ import time from '../middlewares/time';
 
 const router = Router();
 
-router.get('/', validate, (req, res) => {
-  console.log('asdasdasd');
-});
+router.get('/:id', ploggingController.getPlogging);
 router.post('/start', ploggingController.newPlogging);
 router.post(
   '/end/:id',
