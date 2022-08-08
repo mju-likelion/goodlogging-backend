@@ -8,7 +8,6 @@ module.exports = class Plogging extends Sequelize.Model {
           owner: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            unique: true,
           },
           duration: {
             type: Sequelize.INTEGER,
