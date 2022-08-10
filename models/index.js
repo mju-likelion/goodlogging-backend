@@ -1,3 +1,4 @@
+import config from '../config/config';
 const { Sequelize } = require('sequelize');
 const User = require('./User');
 const Plogging = require('./Plogging');
@@ -6,14 +7,13 @@ const Trash = require('./Trash');
 const Badge = require('./Badge');
 const File = require('./File');
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 const sequelize = new Sequelize( //config의 db정보와 연결
-  config.database,
-  config.username,
-  config.password,
-  config
+  config.development.database,
+  config.development.username,
+  config.development.password,
+  config.development
 );
 
 db.sequelize = sequelize;
