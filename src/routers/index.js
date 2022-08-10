@@ -14,6 +14,8 @@ router.use('/challenge', authValidate, validate, challengeRouter);
 router.use('/user', authValidate, validate, userRouter);
 router.use('/plogging', authValidate, ploggingRouter);
 router.use('/upload', authValidate, uploadRouter);
-
+router.get('/', (req, res) => {
+  return res.send('hello world!');
+});
 
 export default router;
