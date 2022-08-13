@@ -1,1 +1,1 @@
-babel-node ./src/index.js
+pm2 start npm -- run start --prefix goodlogging-backend
