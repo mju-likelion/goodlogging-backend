@@ -7,4 +7,4 @@ hooks:
     - location: start.sh
   files:
     - source:  /
-  destination: /home/ec2-user/goodlogging-backend
+      destination: /home/ec2-user/goodlogging-backend
