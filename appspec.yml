@@ -1,10 +1,10 @@
 version: 0.0
 os: linux
-hooks:
-  ApplicationStop:
-    - location: stop.sh
-  ApplicationStart:
-    - location: start.sh
 files:
   - source: /
     destination: /home/ec2-user/goodlogging-backend
+hooks:
+  ApplicationStop:
+    - location: scripts/stop.sh
+  ApplicationStart:
+    - location: scripts/start.sh
