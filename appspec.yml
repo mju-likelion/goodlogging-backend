@@ -5,6 +5,6 @@ hooks:
     - location: stop.sh
   ApplicationStart:
     - location: start.sh
-  files:
-    - source: /
-      destination: /home/ec2-user/goodlogging-backend
+files:
+  - source: /
+    destination: /home/ec2-user/goodlogging-backend
