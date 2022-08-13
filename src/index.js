@@ -6,13 +6,13 @@ import { sequelize } from '../models';
 import globalRouter from './routers/index';
 
 const app = express();
-const PORT = 3000;
+const PORT = 80;
 
 app.use(express.json());
-
+c;
 app.use(
   cors({
-    origin: 'http://localhost:3000', // 더 필요하면 배열로 만들자
+    origin: 'http://localhost:80', // 더 필요하면 배열로 만들자
   })
 );
 
