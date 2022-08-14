@@ -6,26 +6,36 @@ import asyncWrapper from '../errors/wrapper';
 import add from 'date-fns/add';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import { nextDay } from 'date-fns';
+import Trash from '../../models/Trash';
 
 const getPlogging = async (req, res) => {
   const id = parseInt(req.params.id);
-  const user = await Plogging.findAll({
+  const trash = await Trash.findAll({
     raw: true,
-    where: { id: id },
+    where: {
+      plogging: id,
+    },
   });
-  return res.json({
-    owner: user[0].owner,
-    duration: user[0].duration,
+  const user = await Plogging.findOne({
+    raw: true,
+    where: { id },
   });
+  return res.json(
+    {
+      owner: user[0].owner,
+      duration: user[0].duration,
+    },
+    { trash }
+  );
 };
 const newPlogging = async (req, res) => {
   const { user } = req;
   console.log(user.id);
-  const plogging = Plogging.create({
+  const plogging = await Plogging.create({
     owner: user.id,
     duration: 0,
   });
-  return res.send('플로깅 시작!');
+  return res.json({});
 };
 const forUpdate = async (req, res, next) => {
   const update = await Plogging.update(
