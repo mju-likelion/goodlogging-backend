@@ -13,6 +13,7 @@ const getPlogging = async (req, res) => {
   console.log(id);
   const trash = await Trash.findAll({
     raw: true,
+    attributes: ['latitude', 'longitude'],
     where: {
       plogging: id,
     },
@@ -23,14 +24,17 @@ const getPlogging = async (req, res) => {
     where: { id },
   });
   console.log(user);
+  console.log(user.owner);
+  console.log(user.duration);
   return res.json(
     {
-      owner: user[0].owner,
-      duration: user[0].duration,
+      owner: user.owner,
+      duration: user.duration,
     },
-    { trash }
+    { trash: [trash.latitude, trash.longitude] }
   );
 };
+
 const newPlogging = async (req, res) => {
   const { user } = req;
   console.log(user.id);
@@ -48,22 +52,23 @@ const forUpdate = async (req, res, next) => {
   next();
 };
 const endPlogging = async (req, res) => {
-  const startTime = await Plogging.findAll({
+  const id = req.params.id;
+  const startTime = await Plogging.findOne({
     raw: true,
     where: {
-      id: parseInt(req.params.id),
+      id: parseInt(id),
     },
   });
   const durationTime = differenceInSeconds(
-    startTime[0].updatedAt,
-    startTime[0].createdAt
+    startTime.updatedAt,
+    startTime.createdAt
   );
   const end = Plogging.update(
     { duration: durationTime },
     { where: { id: parseInt(req.params.id) } }
   );
 
-  return res.send('플로깅 종료!');
+  return res.json({ startTime });
 };
 
 export default {
