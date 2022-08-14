@@ -10,16 +10,19 @@ import Trash from '../../models/Trash';
 
 const getPlogging = async (req, res) => {
   const id = parseInt(req.params.id);
+  console.log(id);
   const trash = await Trash.findAll({
     raw: true,
     where: {
       plogging: id,
     },
   });
+  console.log(trash);
   const user = await Plogging.findOne({
     raw: true,
     where: { id },
   });
+  console.log(user);
   return res.json(
     {
       owner: user[0].owner,
