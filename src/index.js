@@ -6,7 +6,7 @@ import { sequelize } from '../models';
 import globalRouter from './routers/index';
 
 const app = express();
-const PORT = 80;
+const PORT = 8080;
 
 app.use(express.json());
 app.use(
