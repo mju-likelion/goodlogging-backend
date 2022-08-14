@@ -9,15 +9,15 @@ module.exports = class Badge extends Sequelize.Model {
           allowNull: false,
         },
         description: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(250),
           allowNull: false,
         },
         owner: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
         condition: {
-          type: Sequelize.STRING(150),
+          type: Sequelize.STRING(200),
           allowNull: false,
         },
       },
