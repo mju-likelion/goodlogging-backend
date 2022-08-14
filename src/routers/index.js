@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/test', (req, res) => {
-  return res.send('깃허브 변경 내역 저장 후 배포되었는지 테스트');
+  return res.send('깃허브 변경 내역 저장 후 배포되었는지 마지막 테스트');
 });
 
 export default router;
