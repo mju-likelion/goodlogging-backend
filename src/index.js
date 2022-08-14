@@ -9,7 +9,6 @@ const app = express();
 const PORT = 80;
 
 app.use(express.json());
-c;
 app.use(
   cors({
     origin: 'http://localhost:3000', // 더 필요하면 배열로 만들자
