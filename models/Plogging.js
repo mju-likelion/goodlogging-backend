@@ -9,10 +9,14 @@ module.exports = class Plogging extends Sequelize.Model {
             type: Sequelize.INTEGER,
             allowNull: false,
           },
+          title: {
+            type: Sequelize.STRING(20),
+          },
           duration: {
             type: Sequelize.INTEGER,
             allowNull: false,
           },
+          /*
           createdAt: {
             type: 'TIMESTAMP',
             defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
@@ -23,6 +27,7 @@ module.exports = class Plogging extends Sequelize.Model {
             defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             allowNull: false,
           },
+          */
         },
         {
           sequelize,

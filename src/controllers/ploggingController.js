@@ -35,10 +35,23 @@ const newPlogging = async (req, res) => {
     duration: 0,
   });
 
+  const createdAt = JSON.stringify(plogging.createdAt);
+
+  const month = createdAt.substring(6, 8);
+  const date = createdAt.substring(9, 11);
+
+  await Plogging.update(
+    { title: `${month}월 ${date}일 플로깅` },
+    { where: { id: plogging.id } }
+  );
+
+  const result = await Plogging.findOne({ raw: true }, { where: plogging.id });
+
   return res.json({
-    id: plogging.id,
-    owner: plogging.owner,
-    duration: plogging.duration,
+    title: result.title,
+    id: result.id,
+    owner: result.owner,
+    duration: result.duration,
   });
 };
 
@@ -61,7 +74,7 @@ const endPlogging = async (req, res) => {
     order: [['createdAt', 'DESC']],
   });
 
-  if (!(String(latestPlogging.id) === id)) {
+  if (latestPlogging == null || !(String(latestPlogging.id) === id)) {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
   }
 
