@@ -1,56 +1,98 @@
-import APIError from '../errors/apierror';
+import { APIError } from '../errors/apierror';
 import httpStatus from 'http-status';
 import errorCodes from '../errors/error';
-import { Plogging, User } from '../../models';
+import { Plogging } from '../../models';
 import asyncWrapper from '../errors/wrapper';
-import add from 'date-fns/add';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
-import { nextDay } from 'date-fns';
 import Trash from '../../models/Trash';
-import { pl } from 'date-fns/locale';
 
 const getPlogging = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const trash = await Trash.findAll({
+  const { user } = req;
+  const ploggings = await Plogging.findAll({
     raw: true,
-    attributes: ['latitude', 'longitude'],
     where: {
-      plogging: id,
+      owner: user.id,
     },
   });
 
-  const user = await Plogging.findOne({
-    raw: true,
-    where: { id },
-  });
-  return res.json({
-    owner: user.owner,
-    duration: user.duration,
-    trash,
-  });
+  const result = [];
+
+  for await (const plogging of ploggings) {
+    let trashes = await Trash.findAll({
+      raw: true,
+      where: { plogging: plogging.id },
+    });
+    result.push({ plogging, trashes });
+  }
+  return res.json({ result });
 };
 
 const newPlogging = async (req, res) => {
   const { user } = req;
+
+  const latestPlogging = await Plogging.findOne({
+    where: {
+      owner: user.id,
+    },
+    order: [['createdAt', 'DESC']],
+  });
+
+  if (latestPlogging && !latestPlogging.end) {
+    throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
+  }
 
   const plogging = await Plogging.create({
     owner: user.id,
     duration: 0,
   });
 
+  const createdAt = JSON.stringify(plogging.createdAt);
+
+  const month = createdAt.substring(6, 8);
+  const date = createdAt.substring(9, 11);
+
+  await Plogging.update(
+    { title: `${month}월 ${date}일 플로깅` },
+    { where: { id: plogging.id } }
+  );
+
+  const result = await Plogging.findOne({ raw: true }, { where: plogging.id });
+
   return res.json({
-    id: plogging.id,
-    owner: plogging.owner,
-    duration: plogging.duration,
+    title: result.title,
+    id: result.id,
+    owner: result.owner,
+    duration: result.duration,
   });
 };
+
 const forUpdate = async (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const update = await Plogging.update({ duration: 0 }, { where: { id } });
+  const { id } = req.params;
+  await Plogging.update({ duration: 0 }, { where: { id } });
   next();
 };
+
 const endPlogging = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const {
+    params: { id },
+    user,
+  } = req;
+
+  const latestPlogging = await Plogging.findOne({
+    where: {
+      owner: user.id,
+    },
+    order: [['createdAt', 'DESC']],
+  });
+
+  if (
+    latestPlogging == null ||
+    !(String(latestPlogging.id) === id) ||
+    latestPlogging.end
+  ) {
+    throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
+  }
+
   const startTime = await Plogging.findOne({
     raw: true,
     where: { id },
@@ -60,7 +102,11 @@ const endPlogging = async (req, res) => {
     startTime.updatedAt,
     startTime.createdAt
   );
-  const end = Plogging.update({ duration: durationTime }, { where: { id } });
+
+  await Plogging.update(
+    { duration: durationTime, end: true },
+    { where: { id } }
+  );
 
   const trash = await Trash.findAndCountAll({
     raw: true,
@@ -68,12 +114,13 @@ const endPlogging = async (req, res) => {
       plogging: id,
     },
   });
+
   const result = await Plogging.findOne({
     raw: true,
     attributes: ['owner', 'duration'],
     where: { id },
   });
-  console.log(result);
+
   return res.json({
     owner: result.owner,
     duration: result.duration,

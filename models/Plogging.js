@@ -9,19 +9,16 @@ module.exports = class Plogging extends Sequelize.Model {
             type: Sequelize.INTEGER,
             allowNull: false,
           },
+          title: {
+            type: Sequelize.STRING(20),
+          },
           duration: {
             type: Sequelize.INTEGER,
             allowNull: false,
           },
-          createdAt: {
-            type: 'TIMESTAMP',
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-            allowNull: false,
-          },
-          updatedAt: {
-            type: 'TIMESTAMP',
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-            allowNull: false,
+          end: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
           },
         },
         {
