@@ -26,6 +26,14 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
+        plogging: {
+          type: Sequelize.INTEGER,
+          defaultValue: 0,
+        },
+        trash: {
+          type: Sequelize.INTEGER,
+          defaultValue: 0,
+        },
       },
       {
         sequelize,

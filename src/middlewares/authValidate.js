@@ -19,6 +19,8 @@ const authMiddleware = async (req, res, next) => {
       email: user.email,
       level: user.level,
       address: user.address,
+      plogging: user.plogging,
+      trash: user.trash,
     };
     return next();
   } catch (error) {
