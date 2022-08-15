@@ -5,11 +5,10 @@ import httpStatus from 'http-status';
 import errorCodes from '../errors/error';
 
 const getChallenge = async (req, res) => {
-  const {
-    query: { year, month },
-    user,
-  } = req;
-
+  const day = ({
+    query: { year, month, date },
+  } = req);
+  console.log(day);
   const challenge = await Challenge.findOne({
     where: {
       owner: user.id,

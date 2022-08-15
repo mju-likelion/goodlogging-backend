@@ -6,28 +6,27 @@ import asyncWrapper from '../errors/wrapper';
 import add from 'date-fns/add';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import { nextDay } from 'date-fns';
-import Trash from '../../models/Trash';
+import Trash, { findAll } from '../../models/Trash';
 import { pl } from 'date-fns/locale';
 
 const getPlogging = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const trash = await Trash.findAll({
+  const { user } = req;
+  const ploggings = await Plogging.findAll({
     raw: true,
-    attributes: ['latitude', 'longitude'],
     where: {
-      plogging: id,
+      owner: user.id,
     },
   });
 
-  const user = await Plogging.findOne({
-    raw: true,
-    where: { id },
-  });
-  return res.json({
-    owner: user.owner,
-    duration: user.duration,
-    trash,
-  });
+  const result = [];
+  for await (const plogging of ploggings) {
+    let trashes = await Trash.findAll({
+      raw: true,
+      where: { plogging: plogging.id },
+    });
+    result.push({ plogging, trashes });
+  }
+  return res.json({ result });
 };
 
 const newPlogging = async (req, res) => {
