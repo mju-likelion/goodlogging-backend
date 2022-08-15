@@ -35,9 +35,9 @@ const errorCodes = {
     message: '파일이 제공되지 않았습니다.',
     code: 'FILE_NOT_PROVIDED',
   },
-  PLOGGING_NOT_EXISTS: {
-    message: '해당 id와 유저를 owner로 하는 플로깅이 없습니다.',
-    code: 'PLOGGING_NOT_EXISTS',
+  PLOGGING_BAD_REQUEST: {
+    message: '종료해야 하는 플로깅 id와 다릅니다.',
+    code: 'PLOGGING_BAD_REQUEST',
   },
 };
 
