@@ -8,6 +8,8 @@ const userProfile = async (req, res) => {
   return res.json({
     level: user.level,
     address: user.address,
+    plogging: user.plogging,
+    trash: user.trash,
   });
 };
 
