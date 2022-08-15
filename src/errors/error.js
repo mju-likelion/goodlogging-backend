@@ -36,7 +36,7 @@ const errorCodes = {
     code: 'FILE_NOT_PROVIDED',
   },
   PLOGGING_BAD_REQUEST: {
-    message: '종료해야 하는 플로깅 id와 다릅니다.',
+    message: '플로깅 요청이 올바르지 않습니다.',
     code: 'PLOGGING_BAD_REQUEST',
   },
 };
