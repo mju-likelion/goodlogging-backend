@@ -56,8 +56,12 @@ const newPlogging = async (req, res) => {
     { where: { id: plogging.id } }
   );
 
-  const result = await Plogging.findOne({ raw: true }, { where: plogging.id });
+  const result = await Plogging.findOne({
+    raw: true,
+    where: { duration: 0, id: plogging.id },
+  });
 
+  console.log(result);
   return res.json({
     title: result.title,
     id: result.id,
