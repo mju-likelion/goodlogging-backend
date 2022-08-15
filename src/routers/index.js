@@ -7,7 +7,7 @@ import authValidate from '../middlewares/authValidate';
 import ploggingRouter from '../routers/ploggingRouter';
 import trashRouter from '../routers/trashRouter';
 import validate from '../middlewares/param.validate';
-
+import mainRouter from '../routers/mainRouter';
 const router = Router();
 
 router.use('/auth', authRouter);
@@ -16,7 +16,7 @@ router.use('/user', authValidate, validate, userRouter);
 router.use('/plogging', authValidate, ploggingRouter);
 router.use('/trash', authValidate, trashRouter);
 router.use('/upload', authValidate, uploadRouter);
-
+router.use('/main', authValidate, mainRouter);
 router.get('/', (req, res) => {
   return res.send('hello world!');
 });
