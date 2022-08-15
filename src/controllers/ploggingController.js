@@ -30,6 +30,17 @@ const getPlogging = async (req, res) => {
 const newPlogging = async (req, res) => {
   const { user } = req;
 
+  const latestPlogging = await Plogging.findOne({
+    where: {
+      owner: user.id,
+    },
+    order: [['createdAt', 'DESC']],
+  });
+
+  if (latestPlogging && !latestPlogging.end) {
+    throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
+  }
+
   const plogging = await Plogging.create({
     owner: user.id,
     duration: 0,
@@ -74,7 +85,11 @@ const endPlogging = async (req, res) => {
     order: [['createdAt', 'DESC']],
   });
 
-  if (latestPlogging == null || !(String(latestPlogging.id) === id)) {
+  if (
+    latestPlogging == null ||
+    !(String(latestPlogging.id) === id) ||
+    latestPlogging.end
+  ) {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
   }
 
@@ -88,7 +103,10 @@ const endPlogging = async (req, res) => {
     startTime.createdAt
   );
 
-  await Plogging.update({ duration: durationTime }, { where: { id } });
+  await Plogging.update(
+    { duration: durationTime, end: true },
+    { where: { id } }
+  );
 
   const trash = await Trash.findAndCountAll({
     raw: true,
