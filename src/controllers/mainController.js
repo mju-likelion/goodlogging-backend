@@ -15,12 +15,13 @@ const getMaininfo = async (req, res) => {
     },
   });
   let everyRecords = [];
+
   for await (const myVolume of myVolumes) {
     if (myVolume.duration != null || myVolume.createdAt != null) {
       Volume += myVolume.duration;
-      const createdAt = JSON.stringify(myVolumes[0].createdAt);
+      const createdAt = JSON.stringify(myVolume.createdAt);
       const date = createdAt.substring(1, 11);
-      everyRecords.push({ date: date, duration: myVolumes[0].duration });
+      everyRecords.push({ date: date, duration: myVolume.duration });
     } else {
       res.json({ error: '플로깅이 없습니다.' });
     }
