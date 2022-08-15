@@ -55,7 +55,7 @@ const endPlogging = async (req, res) => {
     raw: true,
     where: { id },
   });
-  console.log(startTime);
+
   const durationTime = differenceInSeconds(
     startTime.updatedAt,
     startTime.createdAt
