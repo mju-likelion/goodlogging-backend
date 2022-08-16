@@ -1,8 +1,8 @@
 import { NO_CONTENT } from 'http-status';
 import { Challenge, User } from '../../models';
 import asyncWrapper from '../errors/wrapper';
-import calculateLevel from '../middlewares/calculateLevel';
-import giveBadge from '../middlewares/giveBadge';
+import calculateLevel from '../functions/calculateLevel';
+import giveBadge from '../functions/giveBadge';
 
 const userProfile = async (req, res) => {
   const { user } = req;

@@ -7,7 +7,7 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Trash from '../../models/Trash';
 import Challenge from '../../models/Challenge';
 import User from '../../models/User';
-import giveBadge from '../middlewares/giveBadge';
+import giveBadge from '../functions/giveBadge';
 
 const getPlogging = async (req, res) => {
   const { user } = req;
