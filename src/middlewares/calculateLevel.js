@@ -1,11 +1,11 @@
 const calculateLevel = (level) => {
   let result = 0;
   if (level === 'beginner') {
-    result = 600;
+    result = 36000;
   } else if (level === 'intermediate') {
-    result = 1200;
+    result = 72000;
   } else {
-    result = 1800;
+    result = 108000;
   }
   return result;
 };
