@@ -10,6 +10,8 @@ import badgeRouter from '../routers/badgeRouter';
 import feedRouter from '../routers/feedRouter';
 import validate from '../middlewares/param.validate';
 import mainRouter from '../routers/mainRouter';
+import hashtagRouter from '../routers/hashtagRouter';
+
 const router = Router();
 
 router.use('/auth', authRouter);
@@ -21,6 +23,8 @@ router.use('/badge', authValidate, badgeRouter);
 router.use('/feed', authValidate, feedRouter);
 router.use('/upload', authValidate, uploadRouter);
 router.use('/main', authValidate, mainRouter);
+router.use('/hashtag', authValidate, hashtagRouter);
+
 router.get('/', (req, res) => {
   return res.send('hello world!');
 });
