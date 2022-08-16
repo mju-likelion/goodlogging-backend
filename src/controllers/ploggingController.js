@@ -36,7 +36,7 @@ const newPlogging = async (req, res) => {
     where: {
       owner: user.id,
     },
-    order: [['createdAt', 'DESC']],
+    order: [['createdAt', 'desc']],
   });
 
   if (latestPlogging && !latestPlogging.end) {
