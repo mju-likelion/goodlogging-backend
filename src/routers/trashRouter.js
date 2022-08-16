@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { query, param } from 'express-validator';
+import { query } from 'express-validator';
 import trash from '../controllers/trashController';
 import validate from '../middlewares/param.validate';
 
