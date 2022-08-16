@@ -30,13 +30,14 @@ const register = async (req, res) => {
     level,
     address,
   });
+
   const challenge = await Challenge.create({
-    goal: await calculateLevel(level, req),
+    goal: await calculateLevel(level, user),
     owner: user.id,
   });
 
   // 뱃지 부여 - 굿로거 (한번만 진행)
-  await giveBadge('굿로거', req);
+  await giveBadge('굿로거', user);
 
   return res.json({
     id: user.id,
