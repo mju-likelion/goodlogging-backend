@@ -11,6 +11,7 @@ import feedRouter from '../routers/feedRouter';
 import validate from '../middlewares/param.validate';
 import mainRouter from '../routers/mainRouter';
 import hashtagRouter from '../routers/hashtagRouter';
+import convertChallenge from '../middlewares/checkChallenge';
 
 const router = Router();
 
@@ -22,7 +23,7 @@ router.use('/trash', authValidate, trashRouter);
 router.use('/badge', authValidate, badgeRouter);
 router.use('/feed', authValidate, feedRouter);
 router.use('/upload', authValidate, uploadRouter);
-router.use('/main', authValidate, mainRouter);
+router.use('/main', authValidate, convertChallenge, mainRouter);
 router.use('/hashtag', authValidate, hashtagRouter);
 
 router.get('/', (req, res) => {
