@@ -1,14 +1,10 @@
 import { Router } from 'express';
-import ploggingController from '../controllers/ploggingController';
+import plogging from '../controllers/ploggingController';
 
 const router = Router();
 
-router.get('/', ploggingController.getPlogging);
-router.post('/start', ploggingController.newPlogging);
-router.post(
-  '/end/:id',
-  ploggingController.forUpdate,
-  ploggingController.endPlogging
-);
+router.get('/', plogging.getPlogging);
+router.post('/start', plogging.newPlogging);
+router.post('/end/:id', plogging.forUpdate, plogging.endPlogging);
 
 export default router;
