@@ -6,7 +6,6 @@ import errorCodes from '../errors/error';
 
 const getMaininfo = async (req, res) => {
   const { user } = req;
-  let Volume = 0;
   const myVolumes = await Plogging.findAll({
     raw: true,
     attributes: ['duration', 'createdAt'],
@@ -18,16 +17,18 @@ const getMaininfo = async (req, res) => {
 
   for await (const myVolume of myVolumes) {
     if (myVolume.duration != null || myVolume.createdAt != null) {
-      Volume += myVolume.duration;
       const createdAt = JSON.stringify(myVolume.createdAt);
       const date = createdAt.substring(1, 11);
       everyRecords.push({ date: date, duration: myVolume.duration });
     } else {
-      res.json({ error: '플로깅이 없습니다.' });
+      throw new APIError(
+        httpStatus.BAD_REQUEST,
+        errorCodes.PLOGGING_NOT_EXISTS
+      );
     }
   }
 
-  return res.json({ duration: Volume, everyRecords });
+  return res.json({ duration: user.plogging, everyRecords });
 };
 
 export default {
