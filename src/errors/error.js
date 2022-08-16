@@ -27,10 +27,6 @@ const errorCodes = {
     message: '권한이 없습니다.',
     code: 'UNAUTHORIZED',
   },
-  CHALLENGE_NOT_EXISTS: {
-    message: '챌린지가 진행되지 않았습니다.',
-    code: 'CHALLENGE_NOT_EXISTS',
-  },
   FILE_NOT_PROVIDED: {
     message: '파일이 제공되지 않았습니다.',
     code: 'FILE_NOT_PROVIDED',
