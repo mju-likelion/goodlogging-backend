@@ -1,8 +1,5 @@
 import { Plogging } from '../../models';
 import asyncWrapper from '../errors/wrapper';
-import APIError from '../errors/apierror';
-import httpStatus from 'http-status';
-import errorCodes from '../errors/error';
 import Challenge from '../../models/Challenge';
 
 const getMaininfo = async (req, res) => {
