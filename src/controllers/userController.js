@@ -21,7 +21,7 @@ const userEdit = async (req, res) => {
   } = req;
 
   if (address != user.address) {
-    await giveBadge('옆동네 한바퀴', req);
+    await giveBadge('옆동네 한바퀴', user);
   }
 
   await User.update(
