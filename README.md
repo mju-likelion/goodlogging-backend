@@ -17,6 +17,8 @@
 * node.js
 * mySQL
 * amazon RDS
+* amazon EC2
+* pm2
 ### 📦 사용한 yarn 패키지들
 #### dependencies
 * bcrypt
