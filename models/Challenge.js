@@ -10,7 +10,7 @@ module.exports = class Challenge extends Sequelize.Model {
         },
         goal: {
           type: Sequelize.INTEGER,
-          defaultValue: 600,
+          defaultValue: 36000,
         },
         owner: {
           type: Sequelize.INTEGER,
