@@ -21,7 +21,7 @@ const userEdit = async (req, res) => {
   } = req;
 
   if (address != user.address) {
-    await giveBadge('옆동네 한바퀴');
+    await giveBadge('옆동네 한바퀴', req);
   }
 
   await User.update(
@@ -38,7 +38,7 @@ const userEdit = async (req, res) => {
 
   await Challenge.update(
     {
-      goal: await calculateLevel(level),
+      goal: await calculateLevel(level, req),
       address,
     },
     {

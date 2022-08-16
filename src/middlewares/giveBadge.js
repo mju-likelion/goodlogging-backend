@@ -1,7 +1,7 @@
 import Badge from '../../models/Badge';
 import { sequelize } from '../../models';
 
-const giveBadge = async (badgeName) => {
+const giveBadge = async (badgeName, req) => {
   const { user } = req;
 
   const badgeStorage = sequelize.models.badgeStorage;
