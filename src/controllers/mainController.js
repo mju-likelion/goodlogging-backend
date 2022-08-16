@@ -3,9 +3,18 @@ import asyncWrapper from '../errors/wrapper';
 import APIError from '../errors/apierror';
 import httpStatus from 'http-status';
 import errorCodes from '../errors/error';
+import Challenge from '../../models/Challenge';
 
 const getMaininfo = async (req, res) => {
   const { user } = req;
+
+  const challenge = await Challenge.findOne({
+    where: {
+      owner: user.id,
+    },
+    attributes: ['done', 'goal'],
+  });
+
   const myVolumes = await Plogging.findAll({
     raw: true,
     attributes: ['duration', 'createdAt'],
@@ -13,22 +22,20 @@ const getMaininfo = async (req, res) => {
       owner: user.id,
     },
   });
-  let everyRecords = [];
+
+  const everyRecords = [];
 
   for await (const myVolume of myVolumes) {
-    if (myVolume.duration != null || myVolume.createdAt != null) {
-      const createdAt = JSON.stringify(myVolume.createdAt);
-      const date = createdAt.substring(1, 11);
-      everyRecords.push({ date: date, duration: myVolume.duration });
-    } else {
-      throw new APIError(
-        httpStatus.BAD_REQUEST,
-        errorCodes.PLOGGING_NOT_EXISTS
-      );
-    }
+    const createdAt = JSON.stringify(myVolume.createdAt);
+    const date = createdAt.substring(1, 11);
+    everyRecords.push({ date: date, duration: myVolume.duration });
   }
 
-  return res.json({ duration: user.plogging, everyRecords });
+  return res.json({
+    goal: challenge.goal,
+    duration: challenge.done,
+    everyRecords,
+  });
 };
 
 export default {

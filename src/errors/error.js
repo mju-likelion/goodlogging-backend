@@ -43,10 +43,6 @@ const errorCodes = {
     message: '정렬 기준이 올바르지 않습니다.',
     code: 'SORT_BAD_REQUEST',
   },
-  PLOGGING_NOT_EXISTS: {
-    message: '플로깅이 없습니다.',
-    code: 'PLOGGING_NOT_EXISTS',
-  },
 };
 
 export default errorCodes;
