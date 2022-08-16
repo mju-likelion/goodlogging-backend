@@ -29,6 +29,11 @@
 * mysql2
 * sequelize
 * sequelize-cli
+* aws-sdk
+* cors
+* multer
+* multer-s3
+* pm2
 #### devDependencies
 * @babel/core
 * @babel/node
@@ -41,7 +46,15 @@
 * nodemon
 ### .env 관련 정보
 ```
-JWT_SECRET = "......"
+USERNAME="...."
+PASSWORD="...."
+DATABASE="...."
+HOST="...."
+JWT_SECRET="...."
+AWS_ACCESS_KEY="...."
+AWS_SECRET_KEY="...."
+S3_BUCKET_NAME="...."
+DEFAULT_LOCATION="...."
 ```
 * * *
 
@@ -64,9 +77,13 @@ JWT_SECRET = "......"
 ## 폴더 구조
 ```bash
 ├── 📂 config
-│   └── 📜 config.json
+│   ├── 📜 config.json
+│   ├── 📜 multer.config.js
+│   └── 📜 s3.config.js
 ├── 📂 models
+│   ├── 📜 Badge.js
 │   ├── 📜 Challenge.js
+│   ├── 📜 File.js
 │   ├── 📜 index.js
 │   ├── 📜 Plogging.js
 │   ├── 📜 Trash.js
@@ -76,22 +93,37 @@ JWT_SECRET = "......"
 ├── 📂 src
 │   ├── 📂 controllers
 │   │   ├── 📜 authController.js
+│   │   ├── 📜 badgeController.js
 │   │   ├── 📜 challengeController.js
+│   │   ├── 📜 feedController.js
+│   │   ├── 📜 hashtagController.js
+│   │   ├── 📜 mainController.js
+│   │   ├── 📜 ploggingController.js
+│   │   ├── 📜 trashController.js
+│   │   ├── 📜 uploadController.js
 │   │   └── 📜 userController.js
 │   ├── 📂 errors
 │   │   ├── 📜 apierror.js
 │   │   ├── 📜 error.js
 │   │   └── 📜 wrapper.js
+│   ├── 📂 functions
+│   │   ├── 📜 calculateLevel.js
+│   │   ├── 📜 giveBadge.js
+│   │   └── 📜 password.js
 │   ├── 📂 middlewares
 │   │   ├── 📜 authValidate.js
-│   │   ├── 📜 calculateLevel.js
-│   │   ├── 📜 getTargetUser.js
-│   │   ├── 📜 param.validate.js
-│   │   └── 📜 password.js
+│   │   └── 📜 param.validate.js
 │   ├── 📂 routers
 │   │   ├── 📜 authRouter.js
+│   │   ├── 📜 badgeRouter.js
 │   │   ├── 📜 challengeRouter.js
+│   │   ├── 📜 feedRouter.js
+│   │   ├── 📜 hashtagRouter.js
 │   │   ├── 📜 index.js
+│   │   ├── 📜 mainRouter.js
+│   │   ├── 📜 ploggingRouter.js
+│   │   ├── 📜 trashRouter.js
+│   │   ├── 📜 uploadRouter.js
 │   │   └── 📜 userRouter.js
 │   └── 📜 index.js
 ├── 📜 .babelrc
@@ -99,8 +131,11 @@ JWT_SECRET = "......"
 ├── 📜 .eslintrc.json
 ├── 📜 .gitignore
 ├── 📜 .prettierrc.json
+├── 📜 appspec.yml
 ├── 📜 package.json
 ├── 📜 README.md
+├── 📜 start.sh
+├── 📜 stop.sh
 └── 📜 yarn.lock
 ``` 
 * * *
