@@ -19,8 +19,8 @@ module.exports = class User extends Sequelize.Model {
           allowNull: false,
         },
         level: {
-          type: Sequelize.ENUM('beginner', 'intermediate', 'expert'),
-          defaultValue: 'beginner',
+          type: Sequelize.ENUM('초급', '중급', '고급'),
+          defaultValue: '초급',
         },
         address: {
           type: Sequelize.STRING(100),
