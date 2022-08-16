@@ -5,6 +5,8 @@ import { Plogging } from '../../models';
 import asyncWrapper from '../errors/wrapper';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Trash from '../../models/Trash';
+import Challenge from '../../models/Challenge';
+import User from '../../models/User';
 
 const getPlogging = async (req, res) => {
   const { user } = req;
@@ -123,6 +125,25 @@ const endPlogging = async (req, res) => {
     attributes: ['owner', 'duration'],
     where: { id },
   });
+
+  await Challenge.increment('done', {
+    by: durationTime,
+    where: {
+      owner: user.id,
+    },
+  });
+
+  await User.update(
+    {
+      plogging: user.plogging + durationTime,
+      trash: user.trash + trash.count,
+    },
+    {
+      where: {
+        id: user.id,
+      },
+    }
+  );
 
   return res.json({
     owner: result.owner,
