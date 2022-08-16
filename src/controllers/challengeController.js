@@ -1,6 +1,6 @@
 import { Challenge } from '../../models';
 import asyncWrapper from '../errors/wrapper';
-import APIError from '../errors/apierror';
+import { APIError } from '../errors/apierror';
 import httpStatus from 'http-status';
 import errorCodes from '../errors/error';
 
