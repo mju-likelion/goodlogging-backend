@@ -7,6 +7,7 @@ import authValidate from '../middlewares/authValidate';
 import ploggingRouter from '../routers/ploggingRouter';
 import trashRouter from '../routers/trashRouter';
 import badgeRouter from '../routers/badgeRouter';
+import feedRouter from '../routers/feedRouter';
 import validate from '../middlewares/param.validate';
 import mainRouter from '../routers/mainRouter';
 const router = Router();
@@ -17,6 +18,7 @@ router.use('/user', authValidate, validate, userRouter);
 router.use('/plogging', authValidate, ploggingRouter);
 router.use('/trash', authValidate, trashRouter);
 router.use('/badge', authValidate, badgeRouter);
+router.use('/feed', authValidate, feedRouter);
 router.use('/upload', authValidate, uploadRouter);
 router.use('/main', authValidate, mainRouter);
 router.get('/', (req, res) => {
