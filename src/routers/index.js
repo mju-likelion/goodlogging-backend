@@ -26,12 +26,4 @@ router.use('/upload', authValidate, uploadRouter);
 router.use('/main', authValidate, convertChallenge, mainRouter);
 router.use('/hashtag', authValidate, hashtagRouter);
 
-router.get('/', (req, res) => {
-  return res.send('hello world!');
-});
-
-router.get('/test', (req, res) => {
-  return res.send('깃허브 변경 내역 저장 후 배포되었는지 마지막 테스트');
-});
-
 export default router;
