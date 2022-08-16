@@ -1,12 +1,12 @@
 import httpStatus from 'http-status';
 import { User, Challenge } from '../../models';
 import jwt from 'jsonwebtoken';
-import { passwordHash, passwordCompare } from '../middlewares/password';
-import calculateLevel from '../middlewares/calculateLevel';
+import { passwordHash, passwordCompare } from '../functions/password';
+import calculateLevel from '../functions/calculateLevel';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
-import giveBadge from '../middlewares/giveBadge';
+import giveBadge from '../functions/giveBadge';
 
 const register = async (req, res) => {
   const { username, email, password, level, address } = req.body;
