@@ -1,30 +1,52 @@
 import Badge from '../../models/Badge';
 import { sequelize } from '../../models';
 import asyncWrapper from '../errors/wrapper';
+import { Op } from 'sequelize';
 
 export const badgeHome = async (req, res) => {
   // id, isCorrect, name..
   const { user } = req;
   const badges = [];
   const badgeStorage = sequelize.models.badgeStorage;
+  const containId = [];
 
-  for await (const badge of await Badge.findAll({})) {
-    // 모든 "뱃지"에 대해서 for 진행
+  // 1. 유저가 획득한 뱃지들을 불러온다
+  let userOwnBadges = await badgeStorage.findAll({
+    raw: true,
+    where: {
+      owner: user.id,
+    },
+    order: [['createdAt', 'asc']],
+  });
 
-    // 각각의 뱃지에 대한 badge - owner 연결 관계 조회
-    const store = await badgeStorage.findOne({
-      raw: true,
-      where: { badge: badge.id, owner: user.id },
-    });
-
-    badges.push({
-      id: badge.id,
-      isCorrect: store ? true : false,
-      name: badge.title,
-      description: badge.description,
-      condition: badge.condition,
-    });
+  // 2. 가지고 있는 뱃지에 대한 정보들을 넣는다.
+  for await (const target of userOwnBadges) {
+    badges.push(
+      await Badge.findOne({
+        raw: true,
+        where: {
+          id: target.badge,
+        },
+        attributes: ['id', 'title', 'description', 'condition'],
+      })
+    );
+    containId.push(target.badge);
   }
+
+  // 3. 유저가 가지지 않은 뱃지들을 추가로 넣어준다.
+  const remains = await Badge.findAll({
+    raw: true,
+    where: {
+      id: {
+        [Op.notIn]: containId,
+      },
+    },
+    attributes: ['id', 'title', 'description', 'condition'],
+  });
+
+  remains.forEach((remain) => {
+    badges.push(remain);
+  });
 
   return res.json(badges);
 };
