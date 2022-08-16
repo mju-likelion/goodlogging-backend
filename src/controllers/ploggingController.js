@@ -7,6 +7,7 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Trash from '../../models/Trash';
 import Challenge from '../../models/Challenge';
 import User from '../../models/User';
+import giveBadge from '../middlewares/giveBadge';
 
 const getPlogging = async (req, res) => {
   const { user } = req;
@@ -38,6 +39,11 @@ const newPlogging = async (req, res) => {
     },
     order: [['createdAt', 'desc']],
   });
+
+  // 한 플로깅이 없을 경우 (처음으로 플로깅할 경우) 뱃지 부여
+  if (!latestPlogging) {
+    await giveBadge('플로깅의 시작');
+  }
 
   if (latestPlogging && !latestPlogging.end) {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
@@ -126,12 +132,31 @@ const endPlogging = async (req, res) => {
     where: { id },
   });
 
-  await Challenge.increment('done', {
-    by: durationTime,
+  const challenge = await Challenge.findOne({
+    raw: true,
     where: {
       owner: user.id,
     },
   });
+
+  if (challenge.done >= challenge.goal) {
+    await giveBadge('챌린저');
+  }
+
+  await Challenge.update(
+    {
+      done: challenge.done + durationTime,
+    },
+    {
+      where: {
+        id: challenge.id,
+      },
+    }
+  );
+
+  if (user.plogging + durationTime >= 180000) {
+    await giveBadge('빠샤~ 빠샤~');
+  }
 
   await User.update(
     {

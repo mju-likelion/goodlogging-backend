@@ -6,6 +6,7 @@ import calculateLevel from '../middlewares/calculateLevel';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
+import giveBadge from '../middlewares/giveBadge';
 
 const register = async (req, res) => {
   const { username, email, password, level, address } = req.body;
@@ -30,9 +31,13 @@ const register = async (req, res) => {
     address,
   });
   const challenge = await Challenge.create({
-    goal: calculateLevel(level),
+    goal: await calculateLevel(level),
     owner: user.id,
   });
+
+  // 뱃지 부여 - 굿로거 (한번만 진행)
+  await giveBadge('굿로거');
+
   return res.json({
     id: user.id,
     username: user.username,

@@ -2,6 +2,7 @@ import { NO_CONTENT } from 'http-status';
 import { Challenge, User } from '../../models';
 import asyncWrapper from '../errors/wrapper';
 import calculateLevel from '../middlewares/calculateLevel';
+import giveBadge from '../middlewares/giveBadge';
 
 const userProfile = async (req, res) => {
   const { user } = req;
@@ -19,6 +20,10 @@ const userEdit = async (req, res) => {
     user,
   } = req;
 
+  if (address != user.address) {
+    await giveBadge('옆동네 한바퀴');
+  }
+
   await User.update(
     {
       level,
@@ -33,7 +38,7 @@ const userEdit = async (req, res) => {
 
   await Challenge.update(
     {
-      goal: calculateLevel(level),
+      goal: await calculateLevel(level),
       address,
     },
     {

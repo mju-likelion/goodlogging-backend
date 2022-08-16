@@ -1,10 +1,18 @@
-const calculateLevel = (level) => {
+import giveBadge from './giveBadge';
+
+const calculateLevel = async (level) => {
   let result = 0;
+  // 뱃지 부여
+  await giveBadge('브론즈'); // 공통
+
   if (level === '초급') {
     result = 36000;
   } else if (level === '중급') {
+    await giveBadge('실버');
     result = 72000;
   } else {
+    await giveBadge('실버');
+    await giveBadge('골드');
     result = 108000;
   }
   return result;
