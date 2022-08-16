@@ -21,6 +21,8 @@ export const badgeHome = async (req, res) => {
       id: badge.id,
       isCorrect: store ? true : false,
       name: badge.title,
+      description: badge.description,
+      condition: badge.condition,
     });
   }
 
