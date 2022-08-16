@@ -31,12 +31,12 @@ const register = async (req, res) => {
     address,
   });
   const challenge = await Challenge.create({
-    goal: await calculateLevel(level),
+    goal: await calculateLevel(level, req),
     owner: user.id,
   });
 
   // 뱃지 부여 - 굿로거 (한번만 진행)
-  await giveBadge('굿로거');
+  await giveBadge('굿로거', req);
 
   return res.json({
     id: user.id,

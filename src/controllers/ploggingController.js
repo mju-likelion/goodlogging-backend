@@ -42,7 +42,7 @@ const newPlogging = async (req, res) => {
 
   // 한 플로깅이 없을 경우 (처음으로 플로깅할 경우) 뱃지 부여
   if (!latestPlogging) {
-    await giveBadge('플로깅의 시작');
+    await giveBadge('플로깅의 시작', req);
   }
 
   if (latestPlogging && !latestPlogging.end) {
@@ -140,7 +140,7 @@ const endPlogging = async (req, res) => {
   });
 
   if (challenge.done >= challenge.goal) {
-    await giveBadge('챌린저');
+    await giveBadge('챌린저', req);
   }
 
   await Challenge.update(
@@ -155,7 +155,7 @@ const endPlogging = async (req, res) => {
   );
 
   if (user.plogging + durationTime >= 180000) {
-    await giveBadge('빠샤~ 빠샤~');
+    await giveBadge('빠샤~ 빠샤~', req);
   }
 
   await User.update(
