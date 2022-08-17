@@ -12,20 +12,15 @@ const mainFeed = async (req, res) => {
     user,
   } = req;
 
-  const trashes = [];
   const users = [];
 
-  (
-    await Trash.findAll(
-      { raw: true },
-      {
-        where: {
-          district: user.address,
-        },
-        attributes: ['latitude', 'longitude'],
-      }
-    )
-  ).forEach((trash) => trashes.push({ trash }));
+  const trashes = await Trash.findAll({
+    raw: true,
+    attributes: ['latitude', 'longitude'],
+    where: {
+      district: user.address,
+    },
+  });
 
   if (sorted === 'time') {
     await userSort(users, user, 'plogging');
