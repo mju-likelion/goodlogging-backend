@@ -4,10 +4,9 @@ import asyncWrapper from '../errors/wrapper';
 import { Op } from 'sequelize';
 
 export const badgeHome = async (req, res) => {
-  // id, isCorrect, name..
   const { user } = req;
-  const badges = [];
   const badgeStorage = sequelize.models.badgeStorage;
+  const badges = [];
   const containId = [];
 
   // 1. 유저가 획득한 뱃지들을 불러온다
