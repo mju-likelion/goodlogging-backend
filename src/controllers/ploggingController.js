@@ -67,14 +67,10 @@ const newPlogging = async (req, res) => {
   const result = await Plogging.findOne({
     raw: true,
     where: { duration: 0, owner: user.id },
+    attributes: ['title', 'id', 'owner', 'duration'],
   });
 
-  return res.json({
-    title: result.title,
-    id: result.id,
-    owner: result.owner,
-    duration: result.duration,
-  });
+  return res.json({ result });
 };
 
 const forUpdate = async (req, res, next) => {
@@ -170,11 +166,7 @@ const endPlogging = async (req, res) => {
     }
   );
 
-  return res.json({
-    owner: result.owner,
-    duration: result.duration,
-    trash: trash.count,
-  });
+  return res.json({ result, trash: trash.count });
 };
 
 export default {
