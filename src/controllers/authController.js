@@ -10,19 +10,23 @@ import giveBadge from '../functions/giveBadge';
 
 const register = async (req, res) => {
   const { username, email, password, level, address } = req.body;
+
   const existEmail = await User.findOne({
     where: {
       email,
     },
   });
+
   const existUsername = await User.findOne({
     where: {
       username,
     },
   });
+
   if (existEmail || existUsername) {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.USER_ALREADY_EXISTS);
   }
+
   const user = await User.create({
     username,
     email,
@@ -31,7 +35,7 @@ const register = async (req, res) => {
     address,
   });
 
-  const challenge = await Challenge.create({
+  await Challenge.create({
     goal: await calculateLevel(level, user),
     owner: user.id,
   });
@@ -50,18 +54,23 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+
   const exist = await User.findOne({
     where: {
       email,
     },
   });
+
   if (!exist) {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.EMAIL_NOT_EXISTS);
   }
+
   const passwordCorrect = passwordCompare(password, exist.password);
+
   if (!passwordCorrect) {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PASSWORD_NOT_MATCH);
   }
+
   const token = jwt.sign(
     {
       id: exist.id,
@@ -72,6 +81,7 @@ const login = async (req, res) => {
       issuer: 'nodebird',
     }
   );
+
   return res.json({
     code: 200,
     message: '토큰 발급 완료',
