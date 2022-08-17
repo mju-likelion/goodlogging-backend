@@ -14,7 +14,7 @@ const mainFeed = async (req, res) => {
 
   const trashes = [];
   const users = [];
-
+  console.log(address);
   (
     await Trash.findAll(
       { raw: true },

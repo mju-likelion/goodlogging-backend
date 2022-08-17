@@ -1,5 +1,6 @@
 import { Challenge } from '../../models';
 import asyncWrapper from '../errors/wrapper';
+import upload from '../functions/uploadImage';
 
 const getChallenge = async (req, res) => {
   const { user } = req;
@@ -14,7 +15,15 @@ const getChallenge = async (req, res) => {
   return res.json(challenge);
 };
 
-const editChallenge = (req, res) => {};
+const editChallenge = (req, res) => {
+  const { user } = req;
+  const file = req.file;
+
+  console.log(user);
+  console.log(file);
+  const uploadedfile = upload.uploadImage(file, user);
+  console.log(uploadedfile);
+};
 
 export default {
   getChallenge: asyncWrapper(getChallenge),
