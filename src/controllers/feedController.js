@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
 import { Trash } from '../../models';
-import User from '../../models/User';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
+import userSort from '../functions/userSort';
 
 const mainFeed = async (req, res) => {
   // 쓰레기 위치 표시 - 유저의 district 기준
@@ -11,6 +11,7 @@ const mainFeed = async (req, res) => {
     query: { sorted },
     user,
   } = req;
+
   const trashes = [];
   const users = [];
 
@@ -21,33 +22,15 @@ const mainFeed = async (req, res) => {
         where: {
           district: user.address,
         },
+        attributes: ['latitude', 'longitude'],
       }
     )
-  ).forEach((trash) =>
-    trashes.push({
-      latitude: trash.latitude,
-      longitude: trash.longitude,
-    })
-  );
+  ).forEach((trash) => trashes.push({ trash }));
 
   if (sorted === 'time') {
-    (
-      await User.findAll({
-        where: {
-          address: user.address,
-        },
-        order: [['plogging', 'desc']],
-      })
-    ).forEach((user) => users.push(user.username));
+    await userSort(users, user, 'plogging');
   } else if (sorted === 'count') {
-    (
-      await User.findAll({
-        where: {
-          address: user.address,
-        },
-        order: [['trash', 'desc']],
-      })
-    ).forEach((user) => users.push(user.username));
+    await userSort(users, user, 'trash');
   } else {
     throw new APIError(httpStatus.BAD_REQUEST, errorCodes.SORT_BAD_REQUEST);
   }
