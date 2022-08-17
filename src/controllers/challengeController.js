@@ -3,12 +3,14 @@ import asyncWrapper from '../errors/wrapper';
 
 const getChallenge = async (req, res) => {
   const { user } = req;
+
   const challenge = await Challenge.findOne({
     where: {
       owner: user.id,
     },
     attributes: ['done', 'goal'],
   });
+
   return res.json(challenge);
 };
 
