@@ -9,27 +9,6 @@ import Challenge from '../../models/Challenge';
 import User from '../../models/User';
 import giveBadge from '../functions/giveBadge';
 
-const getPlogging = async (req, res) => {
-  const { user } = req;
-  const ploggings = await Plogging.findAll({
-    raw: true,
-    where: {
-      owner: user.id,
-    },
-  });
-
-  const result = [];
-
-  for await (const plogging of ploggings) {
-    let trashes = await Trash.findAll({
-      raw: true,
-      where: { plogging: plogging.id },
-    });
-    result.push({ plogging, trashes });
-  }
-  return res.json({ result });
-};
-
 const newPlogging = async (req, res) => {
   const { user } = req;
 
@@ -170,7 +149,6 @@ const endPlogging = async (req, res) => {
 };
 
 export default {
-  getPlogging: asyncWrapper(getPlogging),
   newPlogging: asyncWrapper(newPlogging),
   endPlogging: asyncWrapper(endPlogging),
   forUpdate: asyncWrapper(forUpdate),
