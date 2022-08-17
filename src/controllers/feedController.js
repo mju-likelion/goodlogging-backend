@@ -14,6 +14,8 @@ const mainFeed = async (req, res) => {
 
   const users = [];
 
+
+
   const trashes = await Trash.findAll({
     raw: true,
     attributes: ['latitude', 'longitude'],
@@ -21,6 +23,7 @@ const mainFeed = async (req, res) => {
       district: user.address,
     },
   });
+
 
   if (sorted === 'time') {
     await userSort(users, user, 'plogging');

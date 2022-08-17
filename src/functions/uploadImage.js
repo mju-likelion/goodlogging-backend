@@ -5,16 +5,16 @@ import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
 import storage from '../../config/s3.config';
 
-const uploadImage = async (req, res) => {
-  const fileData = req.file;
-  const file = await uploadToS3(req, fileData);
-  res.json(file); // 결과물 표현
+const uploadImage = async (reqfile, user) => {
+  const fileData = reqfile;
+  const file = await uploadToS3(user, fileData);
+  return file; // 결과물 표현
 };
 
-const uploadToS3 = async (req, fileData) => {
+const uploadToS3 = async (requser, fileData) => {
   try {
-    const { user } = req;
-    const fileContent = req.file?.buffer; // 버퍼된 파일 데이터
+    const { user } = requser;
+    const fileContent = fileData?.buffer; // 버퍼된 파일 데이터
     if (!fileContent) {
       throw new APIError(httpStatus.BAD_REQUEST, errorCodes.FILE_NOT_PROVIDED);
     }
@@ -60,4 +60,5 @@ const uploadToS3 = async (req, fileData) => {
 
 export default {
   uploadImage: asyncWrapper(uploadImage),
+  uploadToS3: asyncWrapper(uploadToS3),
 };
