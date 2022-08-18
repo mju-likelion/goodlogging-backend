@@ -3,8 +3,9 @@ import Board from '../../models/Board';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
+import { uploadFunction } from '../functions/uploadImage';
 
-export const editBoardMemo = async (req, res) => {
+const editBoardMemo = async (req, res) => {
   const {
     body: { memo },
     params: { id },
@@ -36,6 +37,17 @@ export const editBoardMemo = async (req, res) => {
   return res.send(httpStatus.NO_CONTENT);
 };
 
+const editBoardImage = async (req, res) => {
+  const {
+    params: { id },
+    file,
+    user,
+  } = req;
+  const result = await uploadFunction(file, user, id, 'board');
+  return res.json(result);
+};
+
 export default {
   editBoardMemo: asyncWrapper(editBoardMemo),
+  editBoardImage: asyncWrapper(editBoardImage),
 };
