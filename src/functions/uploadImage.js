@@ -1,64 +1,65 @@
 import httpStatus from 'http-status';
-import { File } from '../../models/File';
+import File from '../../models/File';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
 import storage from '../../config/s3.config';
+import { Op } from 'sequelize';
 
-const uploadImage = async (reqfile, user) => {
-  const fileData = reqfile;
-  const file = await uploadToS3(user, fileData);
-  return file; // 결과물 표현
+export const uploadFunction = async (file, user, id, type) => {
+  const result = await uploadToS3(user, file, id, type);
+  return result; // 결과물 표현
 };
 
-const uploadToS3 = async (requser, fileData) => {
+const uploadToS3 = async (user, originFile, id, type) => {
   try {
-    const { user } = requser;
-    const fileContent = fileData?.buffer; // 버퍼된 파일 데이터
+    const fileContent = originFile?.buffer; // 버퍼된 파일 데이터
+
     if (!fileContent) {
       throw new APIError(httpStatus.BAD_REQUEST, errorCodes.FILE_NOT_PROVIDED);
     }
-    // ⬇️ db에 파일 생성
-    const file = await File.create({
-      target: user.id,
-      fileName: fileData.originalname,
-    });
+
     const params = {
       Bucket: process.env.S3_BUCKET_NAME, // s3 버킷
-      Key: `${file.id}.${fileData.mimetype.split('/')[1]}`, // 파일 이름?
+      Key: `${type}/${id}.${originFile.mimetype.split('/')[1]}`, // 파일 이름
       Body: fileContent, // 파일 내용
     };
+
+    // 기존 파일이 없으면 --> db 및 s3에 파일 업로드
+    // 기존 파일이 있으면 --> db 및 s3에 있는 파일 삭제 후 파일 업로드
+
+    const fileCheck = await File.findOne({
+      where: {
+        fileName: {
+          [Op.like]: `%${type}/${id}%`,
+        },
+      },
+    });
+    if (fileCheck) {
+      await File.destroy({
+        where: {
+          id: fileCheck.id,
+        },
+      });
+      await storage
+        .deleteObject({ Bucket: params.Bucket, Key: params.Key })
+        .promise();
+    }
+
+    const file = await File.create({
+      owner: user.id,
+      fileName: `${type}/${id}.${originFile.mimetype.split('/')[1]}`,
+    });
 
     // s3에 파일 업로드
     await storage.upload(params).promise();
 
-    // 프리사인 url 생성
-    const url = storage.getSignedUrl('getObject', {
-      Bucket: process.env.S3_BUCKET_NAME,
-      Key: `${file.id}.${fileData.mimetype.split('/')[1]}`,
-      Expires: 60 * 5,
-    });
-
-    // ⬇️ 파일 url 적용
-    await File.update(
-      {
-        fileUrl: url,
-      },
-      {
-        where: {
-          id: file.id,
-        },
-      }
-    );
-
     return file;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
 
 export default {
-  uploadImage: asyncWrapper(uploadImage),
-  uploadToS3: asyncWrapper(uploadToS3),
+  uploadFunction: asyncWrapper(uploadFunction),
 };
