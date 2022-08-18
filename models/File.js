@@ -48,5 +48,9 @@ module.exports = class File extends Sequelize.Model {
       foreignKey: 'target',
       targetKey: 'id',
     });
+    db.File.belongsTo(db.Board, {
+      foreignKey: 'target',
+      targetKey: 'id',
+    });
   }
 };

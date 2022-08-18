@@ -55,6 +55,10 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: 'owner',
       sourceKey: 'id',
     });
+    db.User.hasMany(db.Board, {
+      foreignKey: 'owner',
+      sourceKey: 'id',
+    });
     db.User.hasOne(db.File, {
       foreignKey: 'target',
       sourceKey: 'id',
