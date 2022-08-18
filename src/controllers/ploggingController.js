@@ -161,6 +161,7 @@ const endPlogging = async (req, res) => {
   // 플로깅을 끝내면 게시물이 자동으로 생성
   const board = await Board.create({
     owner: user.id,
+    plogging: id,
   });
 
   return res.json({ result, trash: trash.count });

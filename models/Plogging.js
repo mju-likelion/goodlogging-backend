@@ -42,5 +42,9 @@ module.exports = class Plogging extends Sequelize.Model {
       foreignKey: 'plogging',
       sourceKey: 'id',
     });
+    db.Plogging.hasOne(db.Board, {
+      foreignKey: 'plogging',
+      sourceKey: 'id',
+    });
   }
 };
