@@ -5,6 +5,7 @@ import Board from '../../models/Board';
 import httpStatus from 'http-status';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
+import getFileUrl from '../functions/getFileUrl';
 
 const allLog = async (req, res) => {
   const { user } = req;
@@ -26,7 +27,8 @@ const allLog = async (req, res) => {
       raw: true,
       where: { plogging: plogging.id },
     });
-    result.push({ plogging, trashes, board });
+    let boardImageUrl = await getFileUrl(board.id, 'board');
+    result.push({ plogging, trashes, board, boardImageUrl });
   }
   return res.json({ result });
 };
