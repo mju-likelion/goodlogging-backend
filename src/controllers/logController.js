@@ -2,6 +2,8 @@ import asyncWrapper from '../errors/wrapper';
 import Plogging from '../../models/Plogging';
 import Trash from '../../models/Trash';
 import httpStatus from 'http-status';
+import { APIError } from '../errors/apierror';
+import errorCodes from '../errors/error';
 
 const allLog = async (req, res) => {
   const { user } = req;
@@ -28,14 +30,29 @@ const editLog = async (req, res) => {
   const {
     body: { title },
     params: { id },
+    user,
   } = req;
+
+  const plogging = await Plogging.findOne({
+    where: {
+      id,
+      owner: user.id,
+    },
+  });
+
+  if (!plogging) {
+    throw new APIError(
+      httpStatus.UNAUTHORIZED,
+      errorCodes.PLOGGING_BAD_REQUEST
+    );
+  }
 
   await Plogging.update(
     {
       title,
     },
     {
-      where: { id },
+      where: { id, owner: user.id },
     }
   );
 
