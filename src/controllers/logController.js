@@ -1,6 +1,7 @@
 import asyncWrapper from '../errors/wrapper';
 import Plogging from '../../models/Plogging';
 import Trash from '../../models/Trash';
+import Board from '../../models/Board';
 import httpStatus from 'http-status';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
@@ -21,7 +22,11 @@ const allLog = async (req, res) => {
       raw: true,
       where: { plogging: plogging.id },
     });
-    result.push({ plogging, trashes });
+    let board = await Board.findOne({
+      raw: true,
+      where: { plogging: plogging.id },
+    });
+    result.push({ plogging, trashes, board });
   }
   return res.json({ result });
 };
