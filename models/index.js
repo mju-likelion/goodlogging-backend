@@ -6,6 +6,7 @@ const Challenge = require('./Challenge');
 const Trash = require('./Trash');
 const Badge = require('./Badge');
 const File = require('./File');
+const Board = require('./Board');
 const env = process.env.NODE_ENV || 'development';
 const db = {};
 
@@ -24,6 +25,7 @@ db.Challenge = Challenge;
 db.Plogging = Plogging;
 db.Badge = Badge;
 db.File = File;
+db.Board = Board;
 
 Challenge.init(sequelize);
 User.init(sequelize);
@@ -31,6 +33,7 @@ Plogging.init(sequelize);
 Trash.init(sequelize);
 Badge.init(sequelize);
 File.init(sequelize);
+Board.init(sequelize);
 
 User.associate(db);
 Plogging.associate(db);
@@ -38,5 +41,6 @@ Challenge.associate(db);
 Trash.associate(db);
 Badge.associate(db);
 File.associate(db);
+Board.associate(db);
 
 module.exports = db;
