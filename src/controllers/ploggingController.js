@@ -8,6 +8,7 @@ import Trash from '../../models/Trash';
 import Challenge from '../../models/Challenge';
 import User from '../../models/User';
 import giveBadge from '../functions/giveBadge';
+import Board from '../../models/Board';
 
 const newPlogging = async (req, res) => {
   const { user } = req;
@@ -57,7 +58,7 @@ const newPlogging = async (req, res) => {
 
   const result = await Plogging.findOne({
     raw: true,
-    where: { duration: 0, owner: user.id },
+    where: { duration: 0, owner: user.id, end: 0 },
     attributes: ['title', 'id', 'owner', 'duration'],
   });
 
@@ -156,6 +157,11 @@ const endPlogging = async (req, res) => {
       },
     }
   );
+
+  // 플로깅을 끝내면 게시물이 자동으로 생성
+  const board = await Board.create({
+    owner: user.id,
+  });
 
   return res.json({ result, trash: trash.count });
 };
