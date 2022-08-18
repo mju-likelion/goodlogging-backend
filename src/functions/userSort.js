@@ -1,10 +1,10 @@
 import User from '../../models/User';
 
 const userSort = async (arr, user, sort) => {
-  console.log(sort);
   if (user != undefined) {
     (
       await User.findAll({
+        raw: true,
         where: {
           address: user.address,
         },
