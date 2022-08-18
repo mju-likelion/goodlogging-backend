@@ -43,6 +43,18 @@ const editBoardImage = async (req, res) => {
     file,
     user,
   } = req;
+
+  const isBoardCorrect = await Board.findOne({
+    where: {
+      id,
+      owner: user.id,
+    },
+  });
+
+  if (!isBoardCorrect) {
+    throw new APIError(httpStatus.BAD_REQUEST, errorCodes.BOARD_BAD_REQUEST);
+  }
+
   const result = await uploadFunction(file, user, id, 'board');
   return res.json(result);
 };
