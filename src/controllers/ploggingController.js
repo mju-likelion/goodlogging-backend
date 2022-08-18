@@ -13,6 +13,7 @@ const newPlogging = async (req, res) => {
   const { user } = req;
 
   const latestPlogging = await Plogging.findOne({
+    raw: true,
     where: {
       owner: user.id,
     },
@@ -25,7 +26,18 @@ const newPlogging = async (req, res) => {
   }
 
   if (latestPlogging && !latestPlogging.end) {
-    throw new APIError(httpStatus.BAD_REQUEST, errorCodes.PLOGGING_BAD_REQUEST);
+    // latestPlogging의 모든 쓰레기 삭제
+    await Trash.destroy({
+      where: {
+        plogging: latestPlogging.id,
+      },
+    });
+    // latestPlogging 삭제
+    await Plogging.destroy({
+      where: {
+        id: latestPlogging.id,
+      },
+    });
   }
 
   const plogging = await Plogging.create({
