@@ -39,6 +39,10 @@ const errorCodes = {
     message: '정렬 기준이 올바르지 않습니다.',
     code: 'SORT_BAD_REQUEST',
   },
+  BOARD_BAD_REQUEST: {
+    message: '게시물 요청이 올바르지 않습니다.',
+    code: 'BOARD_BAD_REQUEST',
+  },
 };
 
 export default errorCodes;
