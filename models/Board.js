@@ -8,6 +8,10 @@ module.exports = class Board extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
+        plogging: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         memo: {
           type: Sequelize.STRING(500),
           allowNull: true,
@@ -31,6 +35,10 @@ module.exports = class Board extends Sequelize.Model {
     });
     db.Board.belongsTo(db.User, {
       foreignKey: 'owner',
+      targetKey: 'id',
+    });
+    db.Board.belongsTo(db.Plogging, {
+      foreignKey: 'plogging',
       targetKey: 'id',
     });
   }
