@@ -29,10 +29,6 @@ module.exports = class Badge extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Badge.hasOne(db.File, {
-      foreignKey: 'target',
-      sourceKey: 'id',
-    });
     db.Badge.belongsToMany(db.User, {
       foreignKey: 'badge',
       through: 'badgeStorage',
