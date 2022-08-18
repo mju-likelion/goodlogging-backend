@@ -5,8 +5,7 @@ module.exports = class File extends Sequelize.Model {
     {
       return super.init(
         {
-          // 챌린지가 될 수도 있고, 게시물이 될 수도 있고, 플로깅이 될 수도 있고..
-          target: {
+          owner: {
             type: Sequelize.INTEGER,
             allowNull: false,
             required: true,
@@ -14,9 +13,6 @@ module.exports = class File extends Sequelize.Model {
           fileName: {
             type: Sequelize.STRING(50),
             allowNull: false,
-          },
-          fileUrl: {
-            type: Sequelize.STRING(500),
           },
         },
         {
@@ -32,24 +28,8 @@ module.exports = class File extends Sequelize.Model {
     }
   }
   static associate(db) {
-    db.File.belongsTo(db.Challenge, {
-      foreignKey: 'target',
-      targetKey: 'id',
-    });
-    db.File.belongsTo(db.Plogging, {
-      foreignKey: 'target',
-      targetKey: 'id',
-    });
     db.File.belongsTo(db.User, {
-      foreignKey: 'target',
-      targetKey: 'id',
-    });
-    db.File.belongsTo(db.Badge, {
-      foreignKey: 'target',
-      targetKey: 'id',
-    });
-    db.File.belongsTo(db.Board, {
-      foreignKey: 'target',
+      foreignKey: 'owner',
       targetKey: 'id',
     });
   }

@@ -29,10 +29,6 @@ module.exports = class Board extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Board.hasOne(db.File, {
-      foreignKey: 'target',
-      sourceKey: 'id',
-    });
     db.Board.belongsTo(db.User, {
       foreignKey: 'owner',
       targetKey: 'id',

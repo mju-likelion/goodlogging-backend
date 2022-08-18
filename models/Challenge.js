@@ -33,9 +33,5 @@ module.exports = class Challenge extends Sequelize.Model {
       foreignKey: 'owner',
       targetKey: 'id',
     });
-    db.Challenge.hasOne(db.File, {
-      foreignKey: 'target',
-      sourceKey: 'id',
-    });
   }
 };
