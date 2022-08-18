@@ -1,5 +1,7 @@
 import asyncWrapper from '../errors/wrapper';
 import Plogging from '../../models/Plogging';
+import Trash from '../../models/Trash';
+import httpStatus from 'http-status';
 
 const allLog = async (req, res) => {
   const { user } = req;
@@ -22,6 +24,25 @@ const allLog = async (req, res) => {
   return res.json({ result });
 };
 
+const editLog = async (req, res) => {
+  const {
+    body: { title },
+    params: { id },
+  } = req;
+
+  await Plogging.update(
+    {
+      title,
+    },
+    {
+      where: { id },
+    }
+  );
+
+  return res.send(httpStatus.NO_CONTENT);
+};
+
 export default {
   allLog: asyncWrapper(allLog),
+  editLog: asyncWrapper(editLog),
 };
