@@ -15,6 +15,7 @@ app.use(
     origin: [
       'http://localhost:3000',
       'https://develop--goodlogging.netlify.app',
+      'https://goodlogging.netlify.app',
     ],
   })
 );
