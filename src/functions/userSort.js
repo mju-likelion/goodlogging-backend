@@ -10,15 +10,9 @@ const userSort = async (arr, user, sort) => {
       order: [[`${sort}`, 'desc']],
       attributes: ['username', 'trash', 'plogging'],
     });
-    if (sort === 'plogging') {
-      sortResult.forEach((user) => {
-        arr.push({ username: user.username, plogging: user.plogging });
-      });
-    } else {
-      sortResult.forEach((user) => {
-        arr.push({ username: user.username, trash: user.trash });
-      });
-    }
+    sortResult.forEach((user) => {
+      arr.push({ username: user.username, [sort]: user[sort] });
+    });
   }
 };
 
