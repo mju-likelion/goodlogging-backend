@@ -9,6 +9,7 @@ import Challenge from '../../models/Challenge';
 import User from '../../models/User';
 import giveBadge from '../functions/giveBadge';
 import Board from '../../models/Board';
+import calculateOneWeekCheck from '../functions/calculateOneWeek';
 
 const newPlogging = async (req, res) => {
   const { user } = req;
@@ -116,7 +117,7 @@ const endPlogging = async (req, res) => {
 
   const result = await Plogging.findOne({
     raw: true,
-    attributes: ['owner', 'duration'],
+    attributes: ['owner', 'duration', 'createdAt'],
     where: { id },
   });
 
@@ -164,7 +165,28 @@ const endPlogging = async (req, res) => {
     plogging: id,
   });
 
-  return res.json({ result, trash: trash.count, board: board.id });
+  // 스테디 플로거 (일주일 연속 플로깅 시 획득) 구현 로직
+  // 1. 종료된 시점에서의 플로깅의 month, day 변수 받는다
+  const createdAt = result.createdAt;
+  const month = JSON.stringify(createdAt).substring(6, 8);
+  const day = JSON.stringify(createdAt).substring(9, 11);
+
+  const isOneWeekCheck = await calculateOneWeekCheck(user, month, day);
+
+  if (isOneWeekCheck) {
+    await giveBadge('스테디 플로거', user);
+  }
+  // 2. 종료된 시점 기준으로 일주일 연속으로 생성되었는지 검사한다
+  // true면 뱃지 부여, false면 뱃지 부여 X
+
+  return res.json({
+    result: {
+      owner: result.owner,
+      duration: result.duration,
+    },
+    trash: trash.count,
+    board: board.id,
+  });
 };
 
 export default {
