@@ -3,6 +3,7 @@ import Board from '../../models/Board';
 import { APIError } from '../errors/apierror';
 import errorCodes from '../errors/error';
 import asyncWrapper from '../errors/wrapper';
+import giveBadge from '../functions/giveBadge';
 import { uploadFunction } from '../functions/uploadImage';
 
 const editBoardMemo = async (req, res) => {
@@ -34,6 +35,7 @@ const editBoardMemo = async (req, res) => {
     }
   );
 
+  await giveBadge('같이 플로깅', user);
   return res.send(httpStatus.NO_CONTENT);
 };
 
