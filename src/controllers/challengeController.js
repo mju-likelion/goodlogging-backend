@@ -1,6 +1,6 @@
 import { Challenge } from '../../models';
 import asyncWrapper from '../errors/wrapper';
-import upload from '../functions/uploadImage';
+import { uploadFunction } from '../functions/uploadImage';
 
 const getChallenge = async (req, res) => {
   const { user } = req;
@@ -9,7 +9,7 @@ const getChallenge = async (req, res) => {
     where: {
       owner: user.id,
     },
-    attributes: ['done', 'goal'],
+    attributes: ['done', 'goal', 'id'],
   });
 
   return res.json(challenge);
@@ -22,7 +22,7 @@ const editChallengeImage = async (req, res) => {
     file,
     user,
   } = req;
-  console.log('this is req.user: ' + req.user);
+  console.log('thisis file :' + file);
   console.log('this is user.id: ' + user.id);
   const isChallengeCorrect = await Challenge.findOne({
     where: {
@@ -40,5 +40,5 @@ const editChallengeImage = async (req, res) => {
 
 export default {
   getChallenge: asyncWrapper(getChallenge),
-  editChallenge: asyncWrapper(editChallengeImage),
+  editChallengeImage: asyncWrapper(editChallengeImage),
 };
