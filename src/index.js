@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'https://develop--goodlogging.netlify.app/login',
+      'https://develop--goodlogging.netlify.app',
     ],
   })
 );
