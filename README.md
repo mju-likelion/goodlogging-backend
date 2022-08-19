@@ -108,6 +108,7 @@ DEFAULT_LOCATION="...."
 │   ├── 📂 controllers
 │   │   ├── 📜 authController.js
 │   │   ├── 📜 badgeController.js
+│   │   ├── 📜 boardController.js
 │   │   ├── 📜 challengeController.js
 │   │   ├── 📜 feedController.js
 │   │   ├── 📜 hashtagController.js
@@ -122,18 +123,24 @@ DEFAULT_LOCATION="...."
 │   │   └── 📜 wrapper.js
 │   ├── 📂 functions
 │   │   ├── 📜 calculateLevel.js
+│   │   ├── 📜 getFileUrl.js
 │   │   ├── 📜 giveBadge.js
-│   │   └── 📜 password.js
+│   │   ├── 📜 password.js
+│   │   ├── 📜 uploadImage.js
+│   │   └── 📜 userSort.js
 │   ├── 📂 middlewares
 │   │   ├── 📜 authValidate.js
+│   │   ├── 📜 checkChallenge.js
 │   │   └── 📜 param.validate.js
 │   ├── 📂 routers
 │   │   ├── 📜 authRouter.js
 │   │   ├── 📜 badgeRouter.js
+│   │   ├── 📜 boardRouter.js
 │   │   ├── 📜 challengeRouter.js
 │   │   ├── 📜 feedRouter.js
 │   │   ├── 📜 hashtagRouter.js
 │   │   ├── 📜 index.js
+│   │   ├── 📜 logRouter.js
 │   │   ├── 📜 mainRouter.js
 │   │   ├── 📜 ploggingRouter.js
 │   │   ├── 📜 trashRouter.js
